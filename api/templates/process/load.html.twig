@@ -197,5 +197,19 @@
         </div> <!-- /.col -->
     </div> <!-- /.col -->
     #}
-{% endif %}
+    {% else %}
+        <section class="row">
+            <div class="col-md-12">
+                <div class="content">
+
+                    <header class="content__header">
+                        <a class="backlink" href="{{ path('app_process_index') }}">Home</a>
+                        <header class="content__header">
+                            <h1 class="content__header-title">U dient ingelogd te zijn voor het opstarten van een verzoek</h1>
+                        </header>
+                    </header>
+                </div><!-- ./content -->
+            </div><!-- ./col -->
+        </section>
+    {% endif %}
 {% endblock %}
