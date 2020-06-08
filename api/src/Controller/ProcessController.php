@@ -101,10 +101,7 @@ class ProcessController extends AbstractController
             }
         }
         else{
-            foreach($variables['process']['stages'] as $stage){
-                if($stage['start'])
-                    $variables['stage'] = $stage;
-            }
+            $variables['process']['stages'][0];
         }
         $variables["slug"] = $slug;
 
