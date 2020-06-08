@@ -98,6 +98,11 @@ class ProcessController extends AbstractController
                 if($stage['slug'] == $slug){
                     $variables['stage'] = $stage;
                 }
+
+            }
+
+            if(!key_exists('stage',$variables)){
+                $variables['stage']['slug'] = $slug;
             }
         }
         else{
@@ -107,7 +112,6 @@ class ProcessController extends AbstractController
             }
         }
         $variables["slug"] = $slug;
-
         return $variables;
     }
 
