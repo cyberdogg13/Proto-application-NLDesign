@@ -276,6 +276,9 @@ parameters:
   # QueueComponent
   env(APP_COMMONGROUND_QC_LOCATION): "https://qc.%env(APP_DOMAIN)%"
   env(APP_COMMONGROUND_QC_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
+  # QueueComponent
+  env(APP_COMMONGROUND_AS_LOCATION): "https://as.%env(APP_DOMAIN)%"
+  env(APP_COMMONGROUND_AS_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
 
   # Test for commonground component by array
   common_ground.components:
@@ -452,6 +455,9 @@ parameters:
     qc:
       location: "%env(APP_COMMONGROUND_QC_LOCATION)%"
       apikey: "%env(APP_COMMONGROUND_QC_APIKEY)%"
+    as:
+      location: "%env(APP_COMMONGROUND_AS_LOCATION)%"
+      apikey: "%env(APP_COMMONGROUND_AS_APIKEY)%"
 
   common_ground.oas.type: service
   common_ground.oas.host: irc.zaakonline.nl
