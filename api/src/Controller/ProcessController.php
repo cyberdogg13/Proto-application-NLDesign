@@ -38,6 +38,16 @@ class ProcessController extends AbstractController
         $variables['processes'] = $commonGroundService->getResourceList(['component'=>'ptc','type'=>'process_types'])['hydra:member'];
         return $variables;
     }
+    /**
+     * This function will kick of the suplied proces with given values
+     *
+     * @Route("/{id}/start")
+     */
+    public function startAction(Session $session, $id, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params){
+        $session->set('request',null);
+
+        return $this->redirect($this->generateUrl('app_process_load',['id'=>$id]));
+    }
 	/**
      * This function will kick of the suplied proces with given values
      *
@@ -88,6 +98,11 @@ class ProcessController extends AbstractController
                 if($stage['slug'] == $slug){
                     $variables['stage'] = $stage;
                 }
+
+            }
+
+            if(!key_exists('stage',$variables)){
+                $variables['stage']['slug'] = $slug;
             }
         }
         else{
@@ -97,9 +112,9 @@ class ProcessController extends AbstractController
             }
         }
         $variables["slug"] = $slug;
-
         return $variables;
     }
+
 }
 
 
