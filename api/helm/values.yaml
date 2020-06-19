@@ -14,7 +14,7 @@ settings:
   repro: https://github.com/ConductionNL/pan
   demo: pan.conduction.nl
   container: https://hub.docker.com/repository/docker/conduction/pc-php
-  domain: westfriesland.commonground.nu
+  domain: conduction.nl
   subdomain: pan
   organisationName: Conduction
   email: info@conduction.nl
@@ -27,7 +27,7 @@ settings:
   cache: 1
   replicaCount: 1
   corsAllowOrigin: ['*']
-  trustedHosts: '^localhost$|^127.0.0.1$|^(.+\.)?conduction\.nl$'
+  trustedHosts: '^.+$'
   pullPolicy: Always
   # You will need these proxies on kubernetes
   trustedProxies:
