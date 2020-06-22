@@ -14,7 +14,7 @@ settings:
   repro: https://github.com/ConductionNL/pan
   demo: pan.conduction.nl
   container: https://hub.docker.com/repository/docker/conduction/pc-php
-  domain: conduction.nl
+  domain: dev
   subdomain: pan
   organisationName: Conduction
   email: info@conduction.nl
