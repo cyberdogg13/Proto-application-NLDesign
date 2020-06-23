@@ -19,7 +19,7 @@
                             {% endif %}
                             {# lets deal with templates #}
                             {% if footer1['@type'] == 'Template' %}
-                                {{ footer1.content }}
+                                {{ footer1.content|e }}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -41,7 +41,7 @@
                             {% endif %}
                             {# lets deal with templates #}
                             {% if footer2['@type'] == 'Template' %}
-                                {{ footer2.content }}
+                                {{ footer2.content|e }}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -63,7 +63,7 @@
                             {% endif %}
                             {# lets deal with templates #}
                             {% if footer3['@type'] == 'Template' %}
-                                {{ footer3.content }}
+                                {{ footer3.content|e }}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -85,7 +85,7 @@
                             {% endif %}
                             {# lets deal with templates #}
                             {% if footer4['@type'] == 'Template' %}
-                                {{ footer4.content }}
+                                {{ footer4.content|e }}
                             {% endif %}
                         </div>
                     {% endif %}
