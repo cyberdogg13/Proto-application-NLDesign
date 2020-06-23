@@ -3,14 +3,14 @@ entries:
   pan:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2020-06-18T12:31:05.221083633Z"
+    created: "2020-06-23T11:42:56.48917749Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: bef9be558d0ca552b840fa70cb30180097cf40a4b18b033d92a77257167628a5
+    digest: d455ddbefb26cdd24e1be2b0b969170adc2b489199ffb73a270dfe428a2a8801
     home: pan.conduction.nl
     icon: pan.conduction.nl
     name: pan
     urls:
     - pan-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-18T12:31:05.218536833Z"
+generated: "2020-06-23T11:42:56.48643599Z"
