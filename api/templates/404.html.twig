@@ -2,12 +2,22 @@
 
 {% block content %}
 
-
-    <div style="background-color: white; height: 100vh; display: flex; flex-direction: column;  align-items: center; padding: 15px">
-        <h1 style="font-size: 120px; margin-top: 25%; padding: 15px">404</h1>
-        <h3 style="color: red">Sorry, er ging iets mis. </h3>
-        <h4>Deze pagina lijkt niet te bestaan sorry voor het ongemak.</h4>
-    </div>
+    <article>
+        <div class="row">
+        <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1">
+            <div class="content-background">
+                <div class="content">
+                    <h1>Error <span style="color: red">404</span>: Pagina niet gevonden</h1>
+                    <p>
+                        Het lijkt erop dat de pagina die u zoekt nog niet bestaat.
+                        Laat ons dit weten en dan zullen wij dit zo snel mogelijk voor u oplossen.
+                        Onze excuses voor het ongemak.
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </article>
 
 
 {% endblock %}
