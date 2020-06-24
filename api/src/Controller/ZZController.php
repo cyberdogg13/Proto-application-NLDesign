@@ -72,6 +72,7 @@ class ZZController extends AbstractController
         }
         else{
             $template = $this->render('404.html.twig', $variables);
+            return $template;
         }
 
         return $response = new Response(
