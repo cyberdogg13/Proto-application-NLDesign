@@ -83,7 +83,7 @@
     	width:100%;
     }
     {% if application is not empty and application['style']['css'] is defined %}
-    {{ application['style']['css'] }}
+    {{ application['style']['css']|raw }}
     {% endif %}
     </style>
 </head>
@@ -112,8 +112,6 @@
                     </div>
                 {% endfor %}
             {% endfor %}
-
-
           {% block content %}
 
           {% endblock %}
