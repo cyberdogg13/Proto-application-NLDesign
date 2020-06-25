@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c1233f5a4778d023bb0803e18902a4c",
+    "content-hash": "b298544afba6f4757399357295d94171",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -470,16 +470,16 @@
         },
         {
             "name": "conduction/commongroundbundle",
-            "version": "dev-feature-pink",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConductionNL/CommonGroundBundle.git",
-                "reference": "08daedb6a0d33b739011ca59a0806960383ccbdb"
+                "reference": "611648bd87606bcb2f4375cba1984ec2e566b25c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/08daedb6a0d33b739011ca59a0806960383ccbdb",
-                "reference": "08daedb6a0d33b739011ca59a0806960383ccbdb",
+                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/611648bd87606bcb2f4375cba1984ec2e566b25c",
+                "reference": "611648bd87606bcb2f4375cba1984ec2e566b25c",
                 "shasum": ""
             },
             "require": {
@@ -557,7 +557,7 @@
                 "postcode",
                 "rsin"
             ],
-            "time": "2020-06-24T18:56:03+00:00"
+            "time": "2020-06-25T19:53:19+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -7890,5 +7890,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
