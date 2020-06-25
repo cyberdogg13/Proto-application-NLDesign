@@ -4,7 +4,7 @@
 
 namespace App\Controller;
 
-use App\Service\ApplicationService;
+use Conduction\CommonGroundBundle\Service\ApplicationService;
 //use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
