@@ -38,6 +38,7 @@ class ProcessController extends AbstractController
         $variables['processes'] = $commonGroundService->getResourceList(['component'=>'ptc','type'=>'process_types'])['hydra:member'];
         return $variables;
     }
+
     /**
      * This function will kick of the suplied proces with given values
      *
@@ -48,6 +49,7 @@ class ProcessController extends AbstractController
 
         return $this->redirect($this->generateUrl('app_process_load',['id'=>$id]));
     }
+
 	/**
      * This function will kick of the suplied proces with given values
      *
@@ -55,9 +57,10 @@ class ProcessController extends AbstractController
 	 * @Route("/{id}/{slug}", name="app_process_slug")
 	 * @Template
 	 */
-    public function loadAction(Session $session, $id, string $slug = 'home',Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
+    public function loadAction(Session $session, $id, string $slug = 'instruction',Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
     {
         $variables = $applicationService->getVariables();
+
         if($request->isMethod('POST')){
             $resource = $request->request->all();
             if(key_exists('organization',$resource)){
@@ -85,6 +88,7 @@ class ProcessController extends AbstractController
                 }
             }
         }
+
         $variables['process'] = $commonGroundService->getResource(['component'=>'ptc','type'=>'process_types','id'=>$id]);
         if(
             $slug == 'home' &&
@@ -112,6 +116,7 @@ class ProcessController extends AbstractController
             }
         }
         $variables["slug"] = $slug;
+
         return $variables;
     }
 
