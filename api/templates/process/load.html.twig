@@ -35,9 +35,9 @@
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
                         {% if property.type == 'array' and property.format == 'bsn' %}
-                            {% include 'widgets/zz/person.html.twig' %}
+                            {% include 'process/formelements/brp/person.html.twig' %}
                         {% elseif property.format == 'bag' %}
-                            {% include 'widgets/zz/address.html.twig' %}
+                            {% include 'process/formelements/bag/address.html.twig' %}
                         {% elseif property.format == 'date' %}
                             {% include 'widgets/zz/date.html.twig' %}
                         {% elseif property.iri == 'wrc/organizations'%}
@@ -49,12 +49,14 @@
                         {% elseif property.iri == 'arc/event'%}
                             {% include 'widgets/arc/event.html.twig' %}
                         {% elseif property.iri == 'pdc/offer'%}
-                            {% include 'widgets/pdc/offer.html.twig' %}
+                            {% include 'process/formelements/pdc/offer.html.twig' %}
                         {% elseif property.iri == 'brp/ingeschrevenpersoon'%}
                             {% include 'widgets/brp/ingeschreven_persoon.html.twig' %}
                         {% elseif property.iri == 'irc/assent'%}
                             {% include 'widgets/irc/assent.html.twig' %}
-                    {% endif %}
+                        {% else %}
+                            No aplicable format {{ property.format }} or iri {{ property.iri  }}
+                        {% endif %}
                     {% endfor %}
 
 {#                    <a class="btn" href="{{ path('app_request_data') }}">Begin</a>#}
