@@ -85,6 +85,11 @@
     .btn--block{
     	width:100%;
     }
+    .no-padding{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
     {% if application is not empty and application['style']['css'] is defined %}
     {{ application['style']['css']|raw }}
     {% endif %}
