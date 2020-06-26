@@ -13,7 +13,7 @@
 
         <ul class="list list--timeline list--timeline-compact">
         {% for iteratedStage in process.stages %}
-            <li class="list__item"><b>{{ iteratedStage.name }}</b> ({{ iteratedStage.sections|length }} vragen)</li>
+            <li class="list__item"><b>{{ iteratedStage.name }}</b>{% if iteratedStage.sections|length == 1%} ({{ iteratedStage.sections|length }} vraag) {% else %} ({{ iteratedStage.sections|length }} vragen) {% endif %}</li>
         {% endfor %}
         </ul>
     </div>
