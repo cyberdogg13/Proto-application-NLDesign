@@ -17,7 +17,7 @@
     </section>
     <div class="row">
     <div class="col-md-8  col-sm-12">
-        <form method="post" action="{{ path('app_process_load',{id:process.id}) }}">
+        <form method="post" action="{{ path('app_process_load',{id:process.id}) }}" class="form">
         {% include 'widgets/processes/default.html.twig' %}
 
     {% if slug is not defined or slug == 'instruction' %}
@@ -32,14 +32,17 @@
             <div class="content-background">
                 <div class="content">
                     <h2>{{ section.name }}</h2>
+                    {{ section.description }}
+
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
                         {% if property.type == 'array' and property.format == 'bsn' %}
                             {% include 'process/formelements/brp/person.html.twig' %}
+
                         {% elseif property.format == 'bag' %}
                             {% include 'process/formelements/bag/address.html.twig' %}
-                        {% elseif property.format == 'date' %}
-                            {% include 'widgets/zz/date.html.twig' %}
+
+
                         {% elseif property.iri == 'wrc/organizations'%}
                             {% include 'widgets/wrc/organizations.html.twig' %}
                         {% elseif property.iri == 'grc/cemetery'%}
@@ -54,8 +57,16 @@
                             {% include 'widgets/brp/ingeschreven_persoon.html.twig' %}
                         {% elseif property.iri == 'irc/assent'%}
                             {% include 'widgets/irc/assent.html.twig' %}
+
+                        {# Some redifining #}
+                        {% elseif property.format == 'phonenumber'%}
+                            {% include 'process/formelements/generic.html.twig'  with {'type': 'tel'} %}
+
+                        {# Generi HTML 5 input types #}
+                        {% elseif property.format in {'button':'','checkbox':'','color':'','date':'','datetime-local':'','email':'','file':'','hidden':'','image':'','month':'','number':'','password':'','radio':'','range':'','reset':'','search':'','submit':'','tel':'','text':'','time':'','url':'','week':''}|keys %}
+                            {% include 'process/formelements/generic.html.twig'  with {'type': property.format} %}
                         {% else %}
-                            No aplicable format {{ property.format }} or iri {{ property.iri  }}
+                            No aplicable format {{ property.format }}, type {{ property.type }} or iri {{ property.iri }}
                         {% endif %}
                     {% endfor %}
 
