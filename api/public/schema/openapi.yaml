@@ -2379,20 +2379,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-<<<<<<< Updated upstream
-        example: '2020-06-26 07:26:01'
-=======
-        example: '2020-06-26 06:34:11'
->>>>>>> Stashed changes
+        example: '2020-06-27 05:22:30'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-<<<<<<< Updated upstream
-        example: '2020-06-26 07:26:01'
-=======
-        example: '2020-06-26 06:34:11'
->>>>>>> Stashed changes
+        example: '2020-06-27 05:22:30'
     required: []
   AuditTrail-write:
     properties:
@@ -2440,20 +2432,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-<<<<<<< Updated upstream
-        example: '2020-06-26 07:26:01'
-=======
-        example: '2020-06-26 06:34:11'
->>>>>>> Stashed changes
+        example: '2020-06-27 05:22:30'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-<<<<<<< Updated upstream
-        example: '2020-06-26 07:26:01'
-=======
-        example: '2020-06-26 06:34:11'
->>>>>>> Stashed changes
+        example: '2020-06-27 05:22:30'
     required: []
   ChangeLog-write:
     properties:
