@@ -10,7 +10,7 @@
     {% if application['style']['favicon']['base64'] is defined and application['style']['favicon']['base64'] is not empty %}
         <link rel="icon" href="{{ application['style']['favicon']['base64']|raw }}">
     {% else %}
-    <link rel="icon" href="/uno/components/favicon/ro-favicon-wit-0xffffff.png">
+        <link rel="icon" href="/uno/components/favicon/ro-favicon-wit-0xffffff.png">
     {% endif %}
     <link rel="stylesheet" href="/uno/core/base.css">
     <link rel="stylesheet" href="/uno/core/grid.css">
@@ -63,6 +63,7 @@
 
     <script src="/uno/vendor/js/Promise.min.js"></script>
     <script src="/uno/vendor/js/system.js"></script>
+
     <script src="https://kit.fontawesome.com/be1c31fb58.js" crossorigin="anonymous"></script>
 
     <script>
