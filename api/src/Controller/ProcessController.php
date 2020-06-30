@@ -61,7 +61,8 @@ class ProcessController extends AbstractController
     {
         $variables = $applicationService->getVariables();
 
-        $variables['request'] = $session->get('request', []);
+        $variables['request'] = $session->get('request', false);
+        if(!$variables['request']){$variables['request'] = ['properties'=>[]];}
 
 
         if($request->isMethod('POST')){
