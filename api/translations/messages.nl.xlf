@@ -93,6 +93,18 @@
         <source>description</source>
         <target>omschrijving</target>
       </trans-unit>
+      <trans-unit id="inmIkP6" resname="yes">
+        <source>yes</source>
+        <target>ja</target>
+      </trans-unit>
+      <trans-unit id="k5Apjz_" resname="no">
+        <source>no</source>
+        <target>nee</target>
+      </trans-unit>
+      <trans-unit id="WpL28In" resname="instruction">
+        <source>instruction</source>
+        <target>instructies</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

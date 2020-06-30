@@ -1,0 +1,15 @@
+
+<div class="input input--horizontal">
+    {% if property.enum is defined and property.enum is not empty and property.type == 'string'%}
+        {% for option in property.enum %}
+            <input type="radio" id="{{ option }}" name="request[properties][{{ property.name }}]" value="{{ option }}">
+            <label for="{{ option }}">{{ option }}</label><br>
+        {% endfor %}
+    {% elseif property.type == "boolean" %}
+        <input type="radio" id="yes" name="request[properties][{{ property.name }}]" value="ja">
+        <label for="yes">{{ 'yes'|trans|capitalize }}</label><br>
+        <input type="radio" id="no" name="request[properties][{{ property.name }}]" value="nee">
+        <label for="no">{{ 'no'|trans|capitalize }}</label><br>
+    {% endif %}
+</div>
+
