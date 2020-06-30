@@ -63,39 +63,28 @@ class ProcessController extends AbstractController
 
         if($request->isMethod('POST')){
             $resource = $request->request->all();
-            if(key_exists('organization',$resource)){
-                if(key_exists('request',$variables) && key_exists('properties',$variables['request'])){
-                    $resource['properties'] = array_replace_recursive($variables['request']['properties'],$resource['properties']);
-                }
-                foreach($resource['properties'] as $key=>$property){
-                    if(is_array($property)
-                        && key_exists('postalCode', $property)
-                        && key_exists('houseNumber',$property)
-                    ){
-                        $addresses = $commonGroundService->getResourceList(['component'=>'as','type'=>'adressen'],['postcode'=>$property['postalCode'],'huisnummer'=>$property['houseNumber'],'huisnummertoevoeging'=>$property['houseNumberSuffix']])['adressen'];
-                        if(empty($addresses)){
-                            $this->addFlash('error', "adres niet gevonden");
-                            unset($resource['properties'][$key]);
-                        }else{
-                            $resource['properties'][$key] = $addresses[0]['id'];
-                        }
-                    }
-                }
-                $variables['request'] = $commonGroundService->saveResource($resource, ['component'=>'vrc','type'=>'requests']);
-                $session->set('request', $variables['request']);
-                if(key_exists('next',$resource)){
-                    $slug = $resource['next'];
-                }
+
+            unset($resource['component']);
+            unset($resource['type']);
+
+            $variables['request'] = $commonGroundService->saveResource($resource['request'], ['component'=>'vrc','type'=>'requests']);
+
+            // Lets go to hte next stage
+            if(key_exists('currentStage', $variables['request']) && $variables['request']['currentStage']){
+                $slug = $variables['request']['currentStage'];
             }
+
+
         }
 
         $variables['process'] = $commonGroundService->getResource(['component'=>'ptc','type'=>'process_types','id'=>$id]);
+
         if(
-            $slug == 'home' &&
+            $slug == 'instruction' &&
             key_exists('request',$variables) &&
             key_exists('currentStage', $variables['request']) &&
             $variables['request']['currentStage']){
-                $variables['stage'] = $commonGroundService->getResource($variables['request']['currentStage']);
+            $variables['stage'] = $commonGroundService->getResource($variables['request']['currentStage']);
         }
         elseif($slug != 'home'){
             foreach($variables['process']['stages'] as $stage){
@@ -115,6 +104,7 @@ class ProcessController extends AbstractController
                     $variables['stage'] = $stage;
             }
         }
+
         $variables["slug"] = $slug;
 
         return $variables;
