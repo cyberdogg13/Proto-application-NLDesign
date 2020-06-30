@@ -85,8 +85,8 @@
         </div><!-- /.col -->
         {% elseif slug != 'submit' %}
 
-        <div class="col-md-6">
-            <button class="btn btn--block" name="submit">Opslaan</button>
+        <div class="col-md-6" style="padding-left: 0px;">
+            <button class="btn btn--block"  name="submit">Opslaan</button>
         </div><!-- /.col -->
         {% endif %}
 
@@ -172,11 +172,11 @@
                 <div class="content">
                     <h2>Stappen</h2>
                  	<ul class="list list--timeline list--timeline-compact">
-                        <li class="list__item {% if stage.slug == 'instruction' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'instruction'}) }}">{{ 'instruction'|trans }}</a></li>
+                        <li class="list__item {% if stage.slug == 'instruction' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'instruction'}) }}">{{ 'instruction'|trans|capitalize }}</a></li>
                         {% for iteratedStage in process.stages %}
-                        <li class="list__item {% if stage.slug == iteratedStage.slug %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:iteratedStage.slug}) }}">{{ iteratedStage.name }}</a></li>
+                        <li class="list__item {% if stage.slug == iteratedStage.slug %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:iteratedStage.slug}) }}">{{ iteratedStage.name|capitalize }}</a></li>
                         {% endfor %}
-                        <li class="list__item {% if stage.slug == 'submit' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'submit'}) }}">{{ 'submit'|trans }}</a></li>
+                        <li class="list__item {% if stage.slug == 'submit' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'submit'}) }}">{{ 'submit'|trans|capitalize }}</a></li>
                 		<li class="list__item list__item--disabled" >In behandeling</li>
                 		<li class="list__item list__item--disabled">Uitsluitsel</li>
                 	</ul>
