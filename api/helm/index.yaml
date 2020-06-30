@@ -4,6 +4,7 @@ entries:
   - apiVersion: v1
     appVersion: V.0.1
 <<<<<<< HEAD
+<<<<<<< HEAD
     created: "2020-06-28T18:47:27.533131744Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
@@ -13,6 +14,12 @@ entries:
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
     digest: 20be0ec9814497bd1d4042955428fac5760295723f2782677ad156f05acbb70c
+>>>>>>> development
+=======
+    created: "2020-06-30T10:34:07.974183078Z"
+    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
+      interface beschikbaar.&#039;'
+    digest: cec661778c435ac8b273724ee9f555215ea556bc22ac9e0c75a284d7a238b2dc
 >>>>>>> development
     home: www.zuid-drecht.nl
     icon: www.zuid-drecht.nl
@@ -24,13 +31,17 @@ entries:
   - apiVersion: v1
     appVersion: V.0.1
 <<<<<<< HEAD
+<<<<<<< HEAD
     created: "2020-06-28T18:47:27.682037958Z"
 =======
     created: "2020-06-30T09:47:14.660698119Z"
 >>>>>>> development
+=======
+    created: "2020-06-30T10:34:07.977496778Z"
+>>>>>>> development
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: 8bef26a6f31ce067a87e48bab2a8accc82f20a6599f25f41f32a36dc42a81602
+    digest: 0b241991c441ce65541b5bc63bebefe1242253a97b5fa8fbdc1894437ed12591
     home: pc.zaakonline.nl
     icon: pc.zaakonline.nl
     name: pc
@@ -38,7 +49,11 @@ entries:
     - pc-0.1.0.tgz
     version: 0.1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
 generated: "2020-06-28T18:47:27.528868443Z"
 =======
 generated: "2020-06-30T09:47:14.458051519Z"
+>>>>>>> development
+=======
+generated: "2020-06-30T10:34:07.968043278Z"
 >>>>>>> development

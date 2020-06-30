@@ -2380,18 +2380,26 @@ definitions:
         type: string
         format: date-time
 <<<<<<< HEAD
+<<<<<<< HEAD
         example: '2020-06-28 18:47:45'
 =======
         example: '2020-06-30 09:47:42'
+>>>>>>> development
+=======
+        example: '2020-06-30 10:38:22'
 >>>>>>> development
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
 <<<<<<< HEAD
+<<<<<<< HEAD
         example: '2020-06-28 18:47:45'
 =======
         example: '2020-06-30 09:47:42'
+>>>>>>> development
+=======
+        example: '2020-06-30 10:38:22'
 >>>>>>> development
     required: []
   AuditTrail-write:
@@ -2441,18 +2449,26 @@ definitions:
         type: string
         format: date-time
 <<<<<<< HEAD
+<<<<<<< HEAD
         example: '2020-06-28 18:47:45'
 =======
         example: '2020-06-30 09:47:42'
+>>>>>>> development
+=======
+        example: '2020-06-30 10:38:22'
 >>>>>>> development
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
 <<<<<<< HEAD
+<<<<<<< HEAD
         example: '2020-06-28 18:47:45'
 =======
         example: '2020-06-30 09:47:42'
+>>>>>>> development
+=======
+        example: '2020-06-30 10:38:22'
 >>>>>>> development
     required: []
   ChangeLog-write:
