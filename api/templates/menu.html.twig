@@ -1,4 +1,4 @@
-    <nav class=" {% if application is defined and application.defaultConfiguration.configuration.colorScheme is defined  %}{{ application.defaultConfiguration.configuration.colorScheme }}{% else %}background--donkerblauw{% endif %}" id="docs-nav">
+    <nav class=" {% if application is defined and application.defaultConfiguration.configuration.colorSchemeMenu is defined  %}{{ application.defaultConfiguration.configuration.colorSchemeMenu }}{% else %}background--donkerblauw{% endif %}" id="docs-nav">
         <div class="container">
             <div class="top-nav__block top-nav-autoresize">
                 <ul class="nav">
@@ -14,17 +14,17 @@
                     {% endfor %}
                 {% else %}
                     <li class="nav__item">
-{#                        <a href="{{ path('app_default_index') }}" title="Home" class="nav__link  ">#}
+                        <a href="{{ path('app_default_index') }}" title="Home" class="nav__link  ">
                             <i class="icon icon-home" role="presentation"></i>
                             <span>Home</span>
                         </a>
                     </li>
                 {% endif %}
                 {% if user is defined and user is not empty %}
-                    <li class="nav__item"><a class="nav__link " href="app_logout">Uitloggen</a></li>
+                    <li class="nav__item"><a class="nav__link " href="{{ path('app_user_logout') }}">Uitloggen</a></li>
                 {% else %}
                     <li class="nav__item">
-                        <a href="app_login" title="Home" class="nav__link  ">
+                        <a href=" {{ commonground_cleanurl({"component":"ds"}) }}?responceUrl={{ absolute_url(path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))) }}" title="Home" class="nav__link  ">
                             <i class="icon icon-user" role="presentation"></i>
                             <span>Inloggen</span>
                         </a>
