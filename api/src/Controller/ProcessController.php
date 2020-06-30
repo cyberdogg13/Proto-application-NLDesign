@@ -61,13 +61,29 @@ class ProcessController extends AbstractController
     {
         $variables = $applicationService->getVariables();
 
+        $variables['request'] = $session->get('request', false);
+        if(!$variables['request']){$variables['request'] = ['properties'=>[]];}
+
+
         if($request->isMethod('POST')){
+
+
+            // the second argument is the value returned when the attribute doesn't exist
             $resource = $request->request->all();
 
-            unset($resource['component']);
-            unset($resource['type']);
+            // Merge with teh request in session
+            if($session->get('request')){
+                $request =  $resource['request'];
+                $request['properties'] = array_merge($session->get('request', [])['properties'], $resource['request']['properties']);
+            }
+            else{
+                $request =  $resource['request'];
+            }
 
-            $variables['request'] = $commonGroundService->saveResource($resource['request'], ['component'=>'vrc','type'=>'requests']);
+            $variables['request'] = $commonGroundService->saveResource($request, ['component'=>'vrc','type'=>'requests']);
+
+            // stores an attribute in the session for later reuse
+            $session->set('request', $variables['request']);
 
             // Lets go to hte next stage
             if(key_exists('currentStage', $variables['request']) && $variables['request']['currentStage']){
