@@ -62,17 +62,60 @@ class ProcessController extends AbstractController
         $variables = $applicationService->getVariables();
 
         $variables['request'] = $session->get('request', false);
+
         if(!$variables['request']){$variables['request'] = ['properties'=>[]];}
 
+        // Defaults
+        if(!array_key_exists('status', $variables['request'])){
+            $variables['request']['status'] = 'incomplete';
+        }
+        if(!array_key_exists('currentStage', $variables['request'])){
+            $variables['request']['currentStage'] = 'instruction';
+        }
+
+        // Let do some overwrites on the request status
+        switch ($variables['request']['status']) {
+            case 'submitted':
+                $slug='submit';
+                break;
+            case 'in progress':
+                $slug='in-progress';
+                break;
+            case 'processed':
+                $slug='processed';
+                break;
+            case 'retracted':
+                $slug='processed';
+                break;
+            case 'cancelled':
+                $slug='processed';
+                break;
+        }
+        // Let do some overwrites on the request status
+        switch ($variables['request']['currentStage']) {
+            case 'submit':
+                $slug='submit';
+                break;
+            case 'in-progress':
+                $slug='in-progress';
+                break;
+            case 'processed':
+                $slug='processed';
+                break;
+            case 'retracted':
+                $slug='processed';
+                break;
+            case 'cancelled':
+                $slug='processed';
+                break;
+        }
 
         if($request->isMethod('POST')){
-
-
             // the second argument is the value returned when the attribute doesn't exist
             $resource = $request->request->all();
 
-            // Merge with teh request in session
-            if($session->get('request')){
+            // Merge with the request in session
+            if($session->get('request') && array_key_exists('properties',$session->get('request')) && array_key_exists('properties',$resource['request']) ){
                 $request =  $resource['request'];
                 $request['properties'] = array_merge($session->get('request', [])['properties'], $resource['request']['properties']);
             }
@@ -85,40 +128,34 @@ class ProcessController extends AbstractController
             // stores an attribute in the session for later reuse
             $session->set('request', $variables['request']);
 
-            // Lets go to hte next stage
-            if(key_exists('currentStage', $variables['request']) && $variables['request']['currentStage']){
-                $slug = $variables['request']['currentStage'];
+            // Lets go to the next stage
+            if(key_exists('next', $resource) && $resource['next']){
+                $stage =  $commonGroundService->getResource($resource['next']);
+                return $this->redirect($this->generateUrl('app_process_slug', ['id' => $id,'slug' => $stage['slug']]));
             }
-
-
+            else{
+                return $this->redirect($this->generateUrl('app_process_load', ['id' => $id]));
+            }
         }
 
         $variables['process'] = $commonGroundService->getResource(['component'=>'ptc','type'=>'process_types','id'=>$id]);
 
-        if(
-            $slug == 'instruction' &&
-            key_exists('request',$variables) &&
-            key_exists('currentStage', $variables['request']) &&
-            $variables['request']['currentStage']){
+        // Getting the current stage
+        if(key_exists('currentStage', $variables['request']) && filter_var($variables['request']['currentStage'], FILTER_VALIDATE_URL) === true){
             $variables['stage'] = $commonGroundService->getResource($variables['request']['currentStage']);
         }
-        elseif($slug != 'home'){
+        else {
             foreach($variables['process']['stages'] as $stage){
                 if($stage['slug'] == $slug){
                     $variables['stage'] = $stage;
                 }
 
             }
-
-            if(!key_exists('stage',$variables)){
-                $variables['stage']['slug'] = $slug;
-            }
         }
-        else{
-            foreach($variables['process']['stages'] as $stage){
-                if($stage['start'])
-                    $variables['stage'] = $stage;
-            }
+
+        // Falback
+        if(!key_exists('stage', $variables)){
+            $variables['stage']= ['slug'=>$slug];
         }
 
         $variables["slug"] = $slug;

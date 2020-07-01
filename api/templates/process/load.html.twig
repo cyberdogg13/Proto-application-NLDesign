@@ -20,11 +20,15 @@
         <form method="post" action="{{ path('app_process_slug',{id:process.id, slug:slug}) }}" class="form">
         {% include 'process/default.html.twig' %}
 
-    {% if slug is not defined or slug == 'instruction' %}
+    {% if slug is not defined or slug == 'instruction'%}
         {% include 'process/instruction.html.twig' %}
 
     {% elseif slug == 'submit' %}
         {% include 'process/submit.html.twig' %}
+    {% elseif slug == 'in-progress' %}
+        {% include 'process/in-progress.html.twig' %}
+    {% elseif slug == 'processed' %}
+        {% include 'process/processed.html.twig' %}
 
     {% elseif stage.sections is defined and stage.sections is not null %}
 
@@ -51,8 +55,10 @@
                             {% include 'process/formelements/grave_type.html.twig' %}
                         {% elseif property.iri == 'arc/event'%}
                             {% include 'process/formelements/event.html.twig' %}
+
                         {% elseif property.iri == 'pdc/offer'%}
                             {% include 'process/formelements/pdc/offer.html.twig' %}
+
                         {% elseif property.iri == 'brp/ingeschrevenpersoon'%}
                             {% include 'widgets/brp/ingeschreven_persoon.html.twig' %}
                         {% elseif property.iri == 'irc/assent'%}
@@ -95,7 +101,6 @@
             <a class="btn btn--block" href="{{ path('app_process_slug',{id: process.id, slug:  process.stages[0].slug }) }}">Beginnen</a>
         </div><!-- /.col -->
         {% elseif slug != 'submit' %}
-
         <div class="col-md-6" style="padding-left: 0px;">
             <button class="btn btn--block"  name="submit">Opslaan</button>
         </div><!-- /.col -->
@@ -183,70 +188,19 @@
                 <div class="content">
                     <h2>Stappen</h2>
                  	<ul class="list list--timeline list--timeline-compact">
-                        <li class="list__item {% if stage.slug == 'instruction' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'instruction'}) }}">{{ 'instruction'|trans|capitalize }}</a></li>
+                        <li class="list__item {% if stage.slug == 'instruction' %}list__item--active{% endif %} {% if request.status != 'incomplete' and request.status != 'complete'%}list__item--disabled{% endif %}">{% if request.status == 'incomplete' or request.status == 'complete'%}<a href="{{ path('app_process_slug',{id:process.id,slug:'instruction'}) }}">{{ 'instruction'|trans|capitalize }}</a>{% else %}{{ 'instruction'|trans|capitalize }}{% endif %}</li>
                         {% for iteratedStage in process.stages %}
-                        <li class="list__item {% if stage.slug == iteratedStage.slug %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:iteratedStage.slug}) }}">{{ iteratedStage.name|capitalize }}</a></li>
+                        <li class="list__item {% if stage.slug == iteratedStage.slug %}list__item--active{% endif %} {% if request.status != 'incomplete' and request.status != 'complete'%}list__item--disabled{% endif %}">{% if request.status == 'incomplete' or request.status == 'complete'%}<a href="{{ path('app_process_slug',{id:process.id,slug:iteratedStage.slug}) }}">{{ iteratedStage.name|capitalize }}{% else %}{{ iteratedStage.name|capitalize }}{% endif %}</a></li>
                         {% endfor %}
-                        <li class="list__item {% if stage.slug == 'submit' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'submit'}) }}">{{ 'submit'|trans|capitalize }}</a></li>
-                		<li class="list__item list__item--disabled" >In behandeling</li>
-                		<li class="list__item list__item--disabled">Uitsluitsel</li>
+                        <li class="list__item {% if stage.slug == 'submit' or request.status == 'submitted' %}list__item--active{% endif %}"><a href="{{ path('app_process_slug',{id:process.id,slug:'submit'}) }}">{{ 'submit'|trans|capitalize }}</a></li>
+                		<li class="list__item {% if request.status == 'in progress' %}list__item--active{% else %}list__item--disabled{% endif %}" >In behandeling</li>
+                		<li class="list__item {% if request.status == 'processed' %}list__item--active{% else %}list__item--disabled{% endif %}">Uitsluitsel</li>
                 	</ul>
                 </div>
             </div>
             {% endif %}
 
-            {% if request is defined and slug != 'submit' %}
-            <!-- Page Break -->
-            <div style="height: 20px"></div>
-
-            <div class="content-background">
-                <div class="content">
-                    <h2>{{ process.name }}</h2>
-                    {% if request.properties is defined %}
-                        <ul class="definition-list">
-                        {% for key, property in request.properties%}
-                            {% if property is defined and property is not empty %}
-                                <li class="definition-list__item definition-list__item--horizontal">
-                                    <div class="definition-list__title">
-                                        {{ key }}
-                                    </div>
-                                    <div class="definition-list__description">
-                                        <p>
-                                            {# if property is iterable %}
-                                                {% for key, value in property %}
-                                                    {{ value }}<br>
-                                                {% endfor %}
-                                            {% else %}
-                                                {% if commonground_is_resource(property) %}
-                                                    {% set property = commonground_resource(property) %}
-                                                    {% if property.naam.voornamen is defined and property.naam.geslachtsnaam is defined %}
-                                                        {{ property.naam.voornamen }} {{ property.naam.geslachtsnaam }}
-                                                    {% elseif property.reference is defined %}
-                                                        {{ property.reference }}
-                                                    {% elseif property.name is defined %}
-                                                        {{ property.name }}
-                                                    {% endif %}
-                                                {% else %}
-                                                    {{ property }}
-                                                {% endif %}
-                                            {% endif #}
-                                        </p>
-                                    </div>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
-            {% endif %}
-
             <!--
-            <div class="content-background background--geel">
-                <div class="content">
-                    <button class="btn btn--primary">Primaire knop</button>
-                </div>
-            </div>
 
 
             <div class="content-background background--donkergeel">
