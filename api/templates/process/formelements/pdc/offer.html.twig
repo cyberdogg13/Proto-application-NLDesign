@@ -8,7 +8,7 @@
             <li class="input__group input__group--checkbox">
                 <ul>
                     {% for offer in offers %}
-                    <li><input type="checkbox" class="input__control input__control--checkbox" value="{{ offer['@id'] }}" name="properties[{{ property.name }}][]" id="{{ offer.id }}"><label for="{{ offer.id }}" class="input__label input__label--checkbox">{{ offer.name }}</label></li>
+                    <li><input type="checkbox" class="input__control input__control--checkbox" value="{{ offer['@id'] }}" name="request[properties][{{ property.name }}]" id="{{ offer.id }}"><label for="{{ offer.id }}" class="input__label input__label--checkbox">{{ offer.name }}</label></li>
                     {% endfor %}
                 </ul>
             </li>
