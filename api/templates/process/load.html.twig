@@ -22,6 +22,7 @@
 
     {% if slug is not defined or slug == 'instruction'%}
         {% include 'process/instruction.html.twig' %}
+        {% include 'process/documents.html.twig' %}
 
     {% elseif slug == 'submit' %}
         {% include 'process/submit.html.twig' %}
@@ -374,7 +375,7 @@
 
     </div><!-- /.col -->
 
-   
+
 
         {% if slug != 'instruction' %}
             <!-- Page Break -->
