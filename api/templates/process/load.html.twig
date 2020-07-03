@@ -80,6 +80,8 @@
                             {% include 'process/formelements/radio.html.twig'  %}
                         {% elseif property.format == 'file'%}
                             {% include 'process/formelements/file.html.twig'  %}
+                        {% elseif property.format == 'location'%}
+                            {% include 'process/formelements/location.html.twig'  %}
 
                         {# Generic HTML 5 input types #}
                         {% elseif property.format in {'button':'','checkbox':'','color':'','date':'','datetime-local':'','email':'','file':'','hidden':'','image':'','month':'','number':'','password':'','radio':'','range':'','reset':'','search':'','submit':'','tel':'','text':'','time':'','url':'','week':''}|keys %}
