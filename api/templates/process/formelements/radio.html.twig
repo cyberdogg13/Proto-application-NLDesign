@@ -2,6 +2,7 @@
 <fieldset class="input">
     {% if property.enum is defined and property.enum is not empty and property.type == 'string'%}
         {% for option in property.enum %}
+
     <div class="input__group input__group--radio">
         <input class="input__control input__control--radio" type="radio" id="{{ option }}" name="request[properties][{{ property.name }}]" value="{{ option }}">
         <label class="input__label input__label--radio" for="{{ option }}">{{ option }}</label><br>
