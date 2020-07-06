@@ -1,2 +1,11 @@
-<label class="input__label" for="{{ property.name }}">BSN van verhuizende</label>
+{% if property.minItems is set and property.minItems is not empty %}
+{% set count = 1 %}
+{% for property.minItems > count %}
+    <label class="input__label" for="{{ property.name }}">Burger Service Nummer</label>
+    <input class="input__control input__control--text" id="{{ property.name }}" type="text" name="request[properties][{{ property.name }}][{{ count }}]">
+    {% set count = count + 1 %}
+{% endfor %}
+{% else %}
+<label class="input__label" for="{{ property.name }}">Burger Service Nummer</label>
 <input class="input__control input__control--text" id="{{ property.name }}" type="text" name="request[properties][{{ property.name }}]">
+{% endif %}
