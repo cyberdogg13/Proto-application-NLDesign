@@ -1,0 +1,22 @@
+<br>
+<button type="button" onclick="showPosition();">Huidige locatie</button>
+<div id="result">
+    <!--Position information will be inserted here-->
+</div>
+<input id="locationProperty" type="hidden" name="request[properties][{{ property.name }}]">
+<script>
+    function showPosition() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let positionInfo = "Uw huidige locatie is: (" + "Breedtegraad: " + position.coords.latitude + ", " + "Lengtegraad: " + position.coords.longitude + ")";
+                document.getElementById("result").innerHTML = positionInfo;
+                let location = document.getElementById('locationProperty');
+                location.value = ''+position.coords.latitude+' '+position.coords.longitude;
+
+                console.log(location.value);
+            });
+        } else {
+            alert("Sorry, uw browser ondersteund deze functie niet.");
+        }
+    }
+</script>

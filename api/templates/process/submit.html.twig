@@ -1,13 +1,24 @@
 <div class="content-background">
     <div class="content">
-        <h2>{{ 'submit'|trans|capitalize }}</h2>
+        <h2>
+            {{ 'properties of the request'|trans|capitalize }}
+        </h2>
 
         {% if request is defined and request is not null %}
-            {% set requestType = commonground_resource(request.requestType) %}
-            <h3>{{ 'properties of the request'|trans|capitalize }}</h3>
             <ul class="definition-list">
+                <li class="definition-list__item definition-list__item--horizontal">
+                    <div class="definition-list__title">
+                        {{ 'status'|trans|capitalize }}
+                    </div>
+                    <div class="definition-list__description">
+                        <p>
+                            {{ request['status']|trans|capitalize  }}
+                        </p>
+                    </div>
+                </li>
             {% for key, property in request.properties %}
                 <li class="definition-list__item definition-list__item--horizontal">
+
                     <div class="definition-list__title">
                         {{ key }}
                     </div>
@@ -16,7 +27,21 @@
                         <p>
                             {% if property is iterable %}
                                 {% for key, value in property %}
+                                    {% if value is iterable %}
+                                        <ul>
+                                    {% for item in value %}
+                                        {% if item is iterable %}
+                                        {% for subItem in item %}
+                                            <li>{{ subItem }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>{{ item }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
                                     {{ value }}<br>
+                                    {% endif %}
                                 {% endfor %}
                             {# else %}
                                 {% if commonground_is_resource(property) %}
@@ -42,7 +67,11 @@
 
     </div>
 </div>
- {% if request is defined and request is not null and request.status != 'submitted' %}
-<button name="status" style="margin-top: 20px;" id="status_submit" value="submitted" class="btn btn--block">{{ 'submit'|trans|capitalize }}</button>
- {% endif %}
-<button name="status" style="margin-top: 20px;" id="status_cancel" value="cancelled" class="btn btn--block btn--primary">{{ 'cancel'|trans|capitalize }}</button>
+
+{% if request['status'] is defined and request['status'] in {'incomplete':'incomplete','complete':'complete'} %}
+<button name="request[status]" style="margin-top: 20px;" id="status_submit" value="submitted" class="btn btn--block">{{ 'submit'|trans|capitalize }}</button>
+<button name="request[status]" style="margin-top: 20px;" id="status_cancel" value="cancelled" class="btn btn--block btn--primary">{{ 'cancel'|trans|capitalize }}</button>
+{% elseif request['status'] is defined and request['status'] in {'submitted':'submitted'} %}
+<button name="request[status]" style="margin-top: 20px;" id="status_retract" value="retracted" class="btn btn--block btn--primary">{{ 'retract'|trans|capitalize }}</button>
+{% endif %}
+

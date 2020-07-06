@@ -8,17 +8,6 @@
 
             <div class="content-background" >
             	<div class="content">
-                    {% if user is empty %}
-                    <div>
-                        <div class="notification notification--warning">
-                            <div class="notification__content">
-                                <h2 class="notification__title">U bent niet ingelogd</h2>
-                                <span>U dient ingelogd te zijn om een process te starten.</span><br>
-                                <span>Klik <a href="{{ commonground_cleanurl({"component":"ds"}) }}?responceUrl={{ absolute_url(path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))) }}">hier</a> om te kunnen inloggen.</span>
-                            </div>
-                    </div>
-
-                    {% endif %}
                         {% if processes is defined and processes is not empty %}
                     <table class="table table-hover">
                         <thead>
@@ -35,9 +24,7 @@
                             <tr>
                                 <td>{{ resource.name }}</td>
                                 <td>{% if resource.dateCreated is defined and resource.dateCreated is not null %}{{ resource.description }}{% endif %}</td>
-                                {% if user is not empty %}
                                 <td><a style="background: #cfebfd; padding: 6px; border-radius: 6px" href="{{ path('app_process_start', {id: resource.id}) }}"><b>{{ 'start'|trans|capitalize }}</b></a></td>
-                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -113,6 +100,9 @@
 
                 <!-- Page Break -->
                 <div style="height: 20px"></div>
+
+                        <button class="btn btn--primary" style="width: 100%">Mijn zuid drecht</button>
+
 
             {% endif %}
 
