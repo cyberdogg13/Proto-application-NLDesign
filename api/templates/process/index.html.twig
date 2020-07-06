@@ -14,7 +14,6 @@
                         <tr>
                             <th scope="col">{{ 'name'|trans|capitalize }}</th>
                             <th scope="col">{{ 'description'|trans|capitalize }}</th>
-                            <th scope="col">{{ 'status'|trans|capitalize }}</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -101,7 +100,7 @@
                 <!-- Page Break -->
                 <div style="height: 20px"></div>
 
-                        <button class="btn btn--primary" style="width: 100%">Mijn zuid drecht</button>
+                        <a href="/request" class="btn btn--primary" style="width: 100%"><i style="margin-right: 10px;" class="fas fa-user"></i>Mijn {{ application.organization.name }}</a>
 
 
             {% endif %}

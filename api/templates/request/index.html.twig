@@ -12,7 +12,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">{{ 'name'|trans|capitalize }}</th>
+                            <th scope="col">{{ 'type'|trans|capitalize }}</th>
                             <th scope="col">{{ 'created'|trans|capitalize }}</th>
                             <th scope="col">{{ 'modified'|trans|capitalize }}</th>
                             <th scope="col">{{ 'status'|trans|capitalize }}</th>
@@ -22,11 +22,13 @@
                         <tbody>
                         {% for resource in requests %}
                             <tr>
-                                <td>{{ resource.reference }}</td>
+                                <td>{{ commonground_resource(resource.processType).name }}</td>
                                 <td>{% if resource.dateCreated is defined and resource.dateCreated is not null %}{{ resource.dateCreated|date("d-m-Y H:i:s", "Europe/Paris") }}{% endif %}</td>
                                 <td>{% if resource.dateModified is defined and resource.dateModified is not null %}{{ resource.dateModified|date("d-m-Y H:i:s", "Europe/Paris") }}{% endif %}</td>
-                                <td>{{ resource.status }}</td>
+                                <td>{{ resource.status|trans|capitalize }}</td>
+                                {% if resource.status != 'submitted' %}
                                 <td><a style="background: #cfebfd; padding: 6px; border-radius: 6px" href="{{ path('app_request_load', {id: resource.id}) }}"><b>{{ 'resume'|trans|capitalize }}</b></a></td>
+                                {% endif %}
 
                             </tr>
                         {% endfor %}
@@ -103,6 +105,8 @@
 
                 <!-- Page Break -->
                 <div style="height: 20px"></div>
+
+                <a href="/process" class="btn btn--primary" style="width: 100%"><i style="margin-right: 10px;" class="fas fa-user"></i>Zelf regelen</a>
 
             {% endif %}
 
