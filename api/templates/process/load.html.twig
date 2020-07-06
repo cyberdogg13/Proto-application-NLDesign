@@ -42,7 +42,7 @@
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
                         {% if property.type == 'array' and property.format == 'bsn' %}
-                            {% include 'process/formelements/brp/person.html.twig' %}
+                            {% include 'process/formelements/person.html.twig' %}
 
                         {% elseif property.format == 'bag' %}
                             {% include 'process/formelements/bag/address.html.twig' %}
