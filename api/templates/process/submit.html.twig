@@ -27,7 +27,21 @@
                         <p>
                             {% if property is iterable %}
                                 {% for key, value in property %}
+                                    {% if value is iterable %}
+                                        <ul>
+                                    {% for item in value %}
+                                        {% if item is iterable %}
+                                        {% for subItem in item %}
+                                            <li>{{ subItem }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>{{ item }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
                                     {{ value }}<br>
+                                    {% endif %}
                                 {% endfor %}
                             {# else %}
                                 {% if commonground_is_resource(property) %}
