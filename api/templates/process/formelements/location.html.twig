@@ -3,7 +3,13 @@
 <div id="result">
     <!--Position information will be inserted here-->
 </div>
+{% if request.properties[property.name] is defined and request.properties[property.name] is not empty %}
+    <input id="locationProperty" type="hidden" name="request[properties][{{ property.name }}]"
+    value="{{ request.properties[property.name] }}">
+
+{% else %}
 <input id="locationProperty" type="hidden" name="request[properties][{{ property.name }}]">
+{% endif %}
 <script>
     function showPosition() {
         if(navigator.geolocation) {
