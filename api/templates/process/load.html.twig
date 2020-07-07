@@ -132,8 +132,32 @@
 
             {% if slug != 'instruction' %}
 
-
             <div class="content-background">
+                <div style="text-align: center; padding: 20px" >
+                    <h2>Vooruitgang</h2>
+                    {% set counter = 0 %}
+                    {% for stage in process.stages %}
+                        {% for section in stage.sections %}
+                            {% for property in section.properties %}
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% if request.properties|length != 0 %}
+                        {% set value = request.properties|length / counter * 100 %}
+                    {% else %}
+                        {% set value = 0 %}
+                    {% endif %}
+                    <div class="progressbar">
+                        <p>{{ value }}%</p>
+                        <div  style="width: {{ value }}%;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="content-background" style="margin-top: 20px;">
                 <div class="content">
                     <h2>Stappen</h2>
                  	<ul class="list list--timeline list--timeline-compact">

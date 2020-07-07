@@ -1,10 +1,8 @@
-{% set meeverhuizers = commonground_resource_list({'component':'brp', 'type':'ingeschrevenpersonen'},
-    {'familie__eerstegraad':user['burgerservicenummer'],'verblijfplaats__huisnummer':}) %}
+
 <div class="input input--horizontal">
     <div>
         <label class="input__label" for="{{ property.id }}">{{ property.title }}</label>
     </div>
-    {{ dump(meeverhuizers) }}
     <ul class="input__group-list">
         <li class="input__group input__group--checkbox">
             <ul>
