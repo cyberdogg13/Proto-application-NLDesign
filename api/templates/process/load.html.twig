@@ -42,7 +42,7 @@
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
                         {% if property.type == 'array' and property.format == 'bsn' %}
-                            {% include 'process/formelements/brp/person.html.twig' %}
+                            {% include 'process/formelements/person.html.twig' %}
 
                         {% elseif property.format == 'bag' %}
                             {% include 'process/formelements/bag/address.html.twig' %}
@@ -82,6 +82,8 @@
                             {% include 'process/formelements/file.html.twig'  %}
                         {% elseif property.format == 'location'%}
                             {% include 'process/formelements/location.html.twig'  %}
+                        {% elseif property.format == 'meeverhuizen'%}
+                            {% include 'process/formelements/mee_verhuizers.html.twig'  %}
 
                         {# Generic HTML 5 input types #}
                         {% elseif property.format in {'button':'','checkbox':'','color':'','date':'','datetime-local':'','email':'','file':'','hidden':'','image':'','month':'','number':'','password':'','radio':'','range':'','reset':'','search':'','submit':'','tel':'','text':'','time':'','url':'','week':''}|keys %}
