@@ -45,7 +45,8 @@
 </div>
 
 
-
+<input id="calendarValue"  type="hidden" name="request[properties][{{ property.name }}]"
+value="">
 <script>
 
     Date.prototype.getWeek = function (dowOffset) {
@@ -152,6 +153,8 @@
         if(date !== ''){
             let testData = document.getElementById('testData');
             let time = timeFrame.split('-');
+            let hiddenInput = document.getElementById('calendarValue');
+            hiddenInput.value = date + ' ' + time[0] + '-' + time[1];
             testData.innerText = 'datum: ' + date + ' tussen: ' + time[0] + ' - ' + time[1];
         }
     }
