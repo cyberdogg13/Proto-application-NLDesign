@@ -21,7 +21,13 @@
                     </li>
                 {% endif %}
                 {% if user is defined and user is not empty %}
-                    <li class="nav__item"><a class="nav__link " href="{{ path('app_user_logout') }}">Uitloggen</a></li>
+                    <li class="nav__item nav__item--parent">
+                        <a class="nav__link nav__link--parent" href="#">{{ user.naam.voornamen }}</a>
+                        <ul class="nav__submenu" style="background-color: #CC0000; width: 100%; margin-top: -3px; padding-top: 0;">
+                            <li class="nav__item" >
+                                <a class="nav__link" style="height: 100%" href="{{ path('app_user_logout') }}">Uitloggen</a></li>
+                        </ul>
+                    </li>
                 {% else %}
                     <li class="nav__item">
                         <a href=" {{ commonground_cleanurl({"component":"ds"}) }}?responceUrl={{ absolute_url(path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))) }}" title="Home" class="nav__link  ">

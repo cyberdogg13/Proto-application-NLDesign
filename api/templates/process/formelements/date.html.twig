@@ -1,12 +1,15 @@
-<table class="table">
+<div></div>
+<table class="table table--small-font">
     <thead>
         <tr>
-            <th><button class="calendarButton" type="button">Week selectie</button></th>
-            <th>Maandag</th>
-            <th>Dinsdag</th>
-            <th>Woensdag</th>
-            <th>Donderdag</th>
-            <th>Vrijdag</th>
+            <th><select id="weekSelect" onchange="weekSelector(this)"  class="calendarSelect">
+                    <option value="" disabled selected style="display:none;">Week Selectie</option>
+                </select></th>
+            <th style="text-align: center">Maandag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Dinsdag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Woensdag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Donderdag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Vrijdag<br><p style="font-weight: 100" class="week"></p></th>
         </tr>
     </thead>
     <tbody>
@@ -42,3 +45,75 @@
 <label class="input__label" for="{{ property.name }}">{{ section.description }}</label>
 <input class="input__control input__control--text" id="{{ property.name }}" type="date" name="request[properties][{{ property.name }}]" required
 {% if request.properties[property.name] is defined and request.properties[property.name] is not empty %} value="{{ request.properties[property.name] }}" {% endif %}>
+
+
+<script>
+
+    Date.prototype.getWeek = function (dowOffset) {
+
+        dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0;
+        let newYear = new Date(this.getFullYear(),0,1);
+        let day = newYear.getDay() - dowOffset;
+        day = (day >= 0 ? day : day + 7);
+        let dayNum = Math.floor((this.getTime() - newYear.getTime() -
+            (this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+        let weekNum;
+        if(day < 4) {
+            weekNum = Math.floor((dayNum+day-1)/7) + 1;
+            if(weekNum > 52) {
+                let nYear = new Date(this.getFullYear() + 1,0,1);
+                let nDay = nYear.getDay() - dowOffset;
+                weekNum = nDay < 4 ? 1 : 53;
+            }
+        }
+        else {
+            weekNum = Math.floor((dayNum+day-1)/7);
+        }
+        return weekNum;
+    };
+
+
+    function getDateOfWeek(w, y) {
+        let date = new Date(y, 0, (1 + (w - 1) * 7));
+        date.setDate(date.getDate() + (1 - date.getDay()));
+        return date
+    }
+
+    let today = new Date();
+    let currentYear = today.getFullYear();
+    let currentWeek = today.getWeek();
+    let select = document.getElementById('weekSelect');
+    for(let i = currentWeek; i <= currentWeek + 52; i ++){
+        if(i > 52){
+            let counter = i - 52;
+            let nextYear = currentYear + 1;
+            let option = document.createElement('option');
+            option.id = i;
+            option.value = counter + '-' + nextYear;
+            option.innerHTML = counter + ' - ' + nextYear ;
+            select.appendChild(option);
+        }else {
+            let option = document.createElement('option');
+            option.id = i;
+            option.value = i + '-' + currentYear;
+            option.innerHTML = i + ' - ' +  currentYear;
+            select.appendChild(option);
+        }
+
+    }
+
+    function weekSelector(week) {
+        const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'september', 'october', 'november', 'december'];
+        let arr = week.value.split('-');
+        let date = getDateOfWeek(arr[0], arr[1]);
+        let weeks = document.getElementsByClassName('week');
+        for(let i = 0; i < weeks.length; i ++){
+            weeks[i].innerHTML= date.getDate() + ' ' + months[date.getMonth()];
+            date.setDate(date.getDate() + 1);
+        }
+
+    }
+
+
+
+</script>
