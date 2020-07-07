@@ -1,2 +1,44 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th><button class="calendarButton" type="button">Week selectie</button></th>
+            <th>Maandag</th>
+            <th>Dinsdag</th>
+            <th>Woensdag</th>
+            <th>Donderdag</th>
+            <th>Vrijdag</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>09:00 - 10:00</th>
+    </tr>
+    <tr>
+        <th>10:00 - 11:00</th>
+    </tr>
+    <tr>
+        <th>11:00 - 12:00</th>
+    </tr>
+    <tr>
+        <th>12:00 - 13:00</th>
+    </tr>
+    <tr>
+        <th>13:00 - 14:00</th>
+    </tr>
+    <tr>
+        <th>14:00 - 15:00</th>
+    </tr>
+    <tr>
+        <th>15:00 - 16:00</th>
+    </tr>
+    <tr>
+        <th>16:00 - 17:00</th>
+    </tr>
+    </tbody>
+</table>
+
+
+
 <label class="input__label" for="{{ property.name }}">{{ section.description }}</label>
-<input class="input__control input__control--text" id="{{ property.name }}" type="date" name="request[properties][{{ property.name }}]" required>
+<input class="input__control input__control--text" id="{{ property.name }}" type="date" name="request[properties][{{ property.name }}]" required
+{% if request.properties[property.name] is defined and request.properties[property.name] is not empty %} value="{{ request.properties[property.name] }}" {% endif %}>
