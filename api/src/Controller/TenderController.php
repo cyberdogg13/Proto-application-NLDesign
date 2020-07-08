@@ -124,6 +124,151 @@ class TenderController extends AbstractController
         );
     }
 
+	/**
+	 * @Route("/proposals/{id}")
+	 * @Template
+	 */
+    public function proposalAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService,  ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component'=>'wrc','type'=>'applications','id'=> $params->get('app_id').'/proposal']);
+        $variables['resource'] = $commonGroundService->getResource(['component'=>'chrc', 'type'=>'proposals', 'id'=>$id]);
+
+        if($template && array_key_exists('content',$template)){
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (key_exists('@component', $resource)){
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+
+        // Create the template
+        if($content){
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        }
+        else{
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+
+	/**
+	 * @Route("/deals/{id}")
+	 * @Template
+	 */
+    public function dealAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService,  ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component'=>'wrc','type'=>'applications','id'=> $params->get('app_id').'/deal']);
+        $variables['resource'] = $commonGroundService->getResource(['component'=>'chrc', 'type'=>'deals', 'id'=>$id]);
+
+        if($template && array_key_exists('content',$template)){
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (key_exists('@component', $resource)){
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+
+        // Create the template
+        if($content){
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        }
+        else{
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+	/**
+	 * @Route("/questions/{id}")
+	 * @Template
+	 */
+    public function questionAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService,  ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component'=>'wrc','type'=>'applications','id'=> $params->get('app_id').'/question']);
+        $variables['resource'] = $commonGroundService->getResource(['component'=>'chrc', 'type'=>'questions', 'id'=>$id]);
+
+        if($template && array_key_exists('content',$template)){
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (key_exists('@component', $resource)){
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+
+        // Create the template
+        if($content){
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        }
+        else{
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
 }
 
 
