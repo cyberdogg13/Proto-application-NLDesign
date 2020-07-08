@@ -84,6 +84,8 @@
                             {% include 'process/formelements/location.html.twig'  %}
                         {% elseif property.format == 'meeverhuizen'%}
                             {% include 'process/formelements/mee_verhuizers.html.twig'  %}
+                        {% elseif property.format == 'calendar'%}
+                            {% include 'process/formelements/calendar.html.twig'  %}
 
                         {# Generic HTML 5 input types #}
                         {% elseif property.format in {'button':'','checkbox':'','color':'','date':'','datetime-local':'','email':'','file':'','hidden':'','image':'','month':'','number':'','password':'','radio':'','range':'','reset':'','search':'','submit':'','tel':'','text':'','time':'','url':'','week':''}|keys %}
@@ -126,72 +128,36 @@
     </div><!-- /.col -->
 
         <div class="col-md-4  col-sm-12">
+
+
+            {% if slug != 'instruction' %}
+
             <div class="content-background">
-
-                <div class="content">
-                    <h2>Uw gegevens</h2>
-
-    				<ul class="definition-list">
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							 Voornamen
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.naam.voornamen }}</p>
-    						</div>
-    					</li>
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							Achternaam
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.naam.geslachtsnaam }}</p>
-    						</div>
-    					</li>
-                        {% if user.naam.voorvoegsel is not empty%}
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							Voorvoegsel
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.naam.voorvoegsel }}</p>
-    						</div>
-    					</li>
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							Leeftijd
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.leeftijd }}</p>
-    						</div>
-    					</li>
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							Geslacht
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.geslachtsaanduiding }}</p>
-    						</div>
-    					</li>
-    					{% endif %}
-    					<li class="definition-list__item definition-list__item--horizontal">
-    						<div class="definition-list__title">
-    							Adres
-    						</div>
-    						<div class="definition-list__description">
-    							<p>{{ user.verblijfplaats.straatnaam }} {{ user.verblijfplaats.huisnummer }}{{ user.verblijfplaats.huisletter }}{{ user.verblijfplaats.huisnummertoevoeging }}
-    							<br>{{ user.verblijfplaats.postcode }} {{ user.verblijfplaats.woonplaatsnaam }}</p>
-    						</div>
-    					</li>
-    				</ul>
+                <div style="text-align: center; padding: 20px" >
+                    <h2>Vooruitgang</h2>
+                    {% set counter = 0 %}
+                    {% for stage in process.stages %}
+                        {% for section in stage.sections %}
+                            {% for property in section.properties %}
+                                {% set counter = counter + 1 %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% if request.properties|length != 0 %}
+                        {% set value = request.properties|length / counter * 100 %}
+                    {% else %}
+                        {% set value = 0 %}
+                    {% endif %}
+                    <div class="progressbar">
+                        <p>{{ value }}%</p>
+                        <div  style="width: {{ value }}%;"></div>
+                    </div>
                 </div>
             </div>
 
-            {% if slug != 'instruction' %}
-            <!-- Page Break -->
-            <div style="height: 20px"></div>
 
-            <div class="content-background">
+
+            <div class="content-background" style="margin-top: 20px;">
                 <div class="content">
                     <h2>Stappen</h2>
                  	<ul class="list list--timeline list--timeline-compact">
@@ -203,6 +169,77 @@
                 		<li class="list__item {% if request.status == 'in progress' %}list__item--active{% else %}list__item--disabled{% endif %}" >In behandeling</li>
                 		<li class="list__item {% if request.status == 'processed' %}list__item--active{% else %}list__item--disabled{% endif %}">Uitsluitsel</li>
                 	</ul>
+                </div>
+            </div>
+
+
+            <div class="content-background" style="margin-top: 20px;">
+                <div class="content">
+                    <h2>
+                        Ingevulde gegevens
+                    </h2>
+
+                    {% if request is defined and request is not null %}
+                        <ul class="definition-list">
+                            <li class="definition-list__item definition-list__item--horizontal">
+                                <div class="definition-list__title">
+                                    {{ 'status'|trans|capitalize }}
+                                </div>
+                                <div class="definition-list__description">
+                                    <p>
+                                        {{ request['status']|trans|capitalize  }}
+                                    </p>
+                                </div>
+                            </li>
+                            {% for key, property in request.properties %}
+                                <li class="definition-list__item definition-list__item--horizontal">
+
+                                    <div class="definition-list__title">
+                                        {{ key }}
+                                    </div>
+
+                                    <div class="definition-list__description">
+                                        <p>
+                                            {% if property is iterable %}
+                                            {% for key, value in property %}
+                                            {% if value is iterable %}
+                                        <ul>
+                                            {% for item in value %}
+                                                {% if item is iterable %}
+                                                    {% for subItem in item %}
+                                                        <li>{{ subItem }}</li>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <li>{{ item }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        {% else %}
+                                            {{ value }}<br>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {# else %}
+                                            {% if commonground_is_resource(property) %}
+                                                {% set property = commonground_resource(property) %}
+                                                {% if property.naam.voornamen is defined and property.naam.geslachtsnaam is defined %}
+                                                    {{ property.naam.voornamen }} {{ property.naam.geslachtsnaam }}
+                                                {% elseif property.reference is defined %}
+                                                    {{ property.reference }}
+                                                {% elseif property.name is defined %}
+                                                    {{ property.name }}
+                                                {% endif #}
+                                        {% else %}
+                                            {{ property }}
+                                            {# endif #}
+                                        {% endif %}
+                                        </p>
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
                 </div>
             </div>
             {% endif %}
