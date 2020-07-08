@@ -38,21 +38,34 @@
         let toevoeging = document.getElementById('toevoeging').value;
         document.getElementById('toevoeging').value = null;
 
+        console.log(postcode);
+        console.log(huisnummer);
+
         $.ajax({
             url: "/api/as/adressen",
             type: 'GET',
             data: {
-                'postcode':postcode,
                 'huisnummer':parseInt(huisnummer),
-                'toevoeging':toevoeging
+                'postcode':postcode,
+            },
+            processData: true,
+            statusCode: {
+                404: function() {
+                    console.log( "page not found" );
+                },
+                500: function() {
+                    console.log( "internal server error" );
+                },
+                200: function() {
+                    console.log( "worked" );
+                }
             },
             dataType: 'json',
-            success: function(result) {
+            success: function(result, test, test2) {
                 console.log(result);
+                console.log(test);
+                console.log(test2);
             },
-            error: function(e) {
-                console.log(e);
-            }
         });
     }
 
