@@ -149,7 +149,7 @@
                         {% set value = 0 %}
                     {% endif %}
                     <div class="progressbar">
-                        <p>{{ value }}%</p>
+                        <p>{{ value|round(0, 'ceil') }}%</p>
                         <div  style="width: {{ value }}%;"></div>
                     </div>
                 </div>
