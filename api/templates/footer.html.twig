@@ -19,7 +19,7 @@
                             {% endif %}
                             {# lets deal with templates #}
                             {% if footer1['@type'] == 'Template' %}
-                                    {{ footer1.content|raw }}
+                                    {{ include(template_from_string(footer1.content|raw)) }}
                             {% endif %}
                         </div>
                     {% endif %}
