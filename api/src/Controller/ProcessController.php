@@ -160,6 +160,7 @@ class ProcessController extends AbstractController
 
         $variables["slug"] = $slug;
 
+
         return $variables;
     }
 
