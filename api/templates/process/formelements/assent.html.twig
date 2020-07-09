@@ -15,7 +15,7 @@
                             <input type="hidden" id="{{ value }}" value="{{ getuige.telephone }}" name="request[properties][{{ property.name }}][{{ value }}][telephone]">
                             <input type="hidden" id="{{ value }}" value="{{ getuige.person.givenName }}" name="request[properties][{{ property.name }}][{{ value }}][person][givenName]">
                             <input type="hidden" id="{{ value }}" value="{{ getuige.person.familyName }}" name="request[properties][{{ property.name }}][{{ value }}][person][familyName]">
-                            <button class="btn btn-primary" id="{{ value }}" onclick="storedDelete(this)" style="background-color:red; margin-bottom: 5px; width: 100%" type="button">verwijderen</button>
+                            <button class="btn btn-primary" id="{{ value }}" onclick="storedDelete(this, '{{ property.maxItems }}')" style="background-color:red; margin-bottom: 5px; width: 100%" type="button">verwijderen</button>
                         </div>
                     </div>
                     {% set value = value + 1 %}
@@ -41,7 +41,7 @@
 <script>
     function addGetuigen(propertyName, items) {
         let container = document.getElementById("getuigen-container");
-            if(container.children.length === 4){
+            if(container.children.length === parseInt(items)){
                 $('#toevoegen').prop('disabled', true);
             }
             let email = document.getElementById('getuigenEmail').value;
@@ -113,7 +113,7 @@
             let button = document.createElement('button');
             button.innerHTML = 'verwijderen';
             button.addEventListener('click', function(){
-                removeGetuigen(outerDiv);
+                removeGetuigen(outerDiv, '{{ property.maxItems }}');
             });
             button.className = 'btn btn-primary';
             button.setAttribute('style', 'background-color: red; margin-bottom: 5px; width:100%;')
@@ -133,22 +133,22 @@
 
     }
 
-    function removeGetuigen(target) {
+    function removeGetuigen(target, items) {
         let container = document.getElementById("getuigen-container");
         target.remove();
-        if(container.children.length < 5){
+        if(container.children.length < parseInt(items) + 1){
             $('#toevoegen').prop('disabled', false);
         }
     }
 
-    function storedDelete(given){
+    function storedDelete(given, items){
         let container = document.getElementById("getuigen-container");
         let td = given.parentNode;
         let tr = td.parentNode;
         given.remove();
         td.remove();
         tr.remove();
-        if(container.children.length < 5){
+        if(container.children.length < parseInt(items) + 1){
             $('#toevoegen').prop('disabled', false);
         }
     }
