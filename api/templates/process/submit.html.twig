@@ -54,7 +54,11 @@
                                         {{ property.name }}
                                     {% endif #}
                                 {% else %}
+                                    {% if 'http' in property %}
+                                        {{ commonground_resource(property).name }}
+                                    {% else %}
                                     {{ property }}
+                                    {% endif %}
                                 {# endif #}
                             {% endif %}
                         </p>
