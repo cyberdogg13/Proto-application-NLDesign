@@ -4,7 +4,7 @@
 
 namespace App\Controller;
 
-use App\Service\ApplicationService;
+use Conduction\CommonGroundBundle\Service\ApplicationService;
 //use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,13 +46,10 @@ class ZZController extends AbstractController
         $variables['id'] = end($slug_parts);
 
         // Lets find an appoptiate slug
-        $slugs = $commonGroundService->getResourceList(['component'=>'wrc','type'=>'slugs'],['application.id'=>$variables['application']['id'],'slug'=>$slug])["hydra:member"];
+        $template = $commonGroundService->getResource(['component'=>'wrc','type'=>'applications','id'=> $params->get('app_id').'/'.$slug ]);
 
-        if(count($slugs) != 0){
-            $content = $slugs[0]['template']['content'];
-        }
-        else{
-            // Throw not found
+        if($template && array_key_exists('content',$template)){
+            $content = $template['content'];
         }
 
         // Lets see if there is a post to procces
@@ -72,6 +69,7 @@ class ZZController extends AbstractController
         }
         else{
             $template = $this->render('404.html.twig', $variables);
+            return $template;
         }
 
         return $response = new Response(
