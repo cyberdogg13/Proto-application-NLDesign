@@ -4,7 +4,7 @@ const RESIZE_THROTTLE: number = 200;
  * All screens lower than this will always show a hamburger
  * @type {number}
  */
-const MOBILE_WIDTH: number = 544;
+const MOBILE_WIDTH: number = 730;
 /**
  * @class AutoResizeNavigation
  * Creates an navigation component that automatically puts items in a menu to fit in the available width
