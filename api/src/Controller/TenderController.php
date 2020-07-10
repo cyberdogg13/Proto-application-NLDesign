@@ -27,7 +27,59 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * @Route("/chrc")
  */
 class TenderController extends AbstractController
-{
+
+
+{/**
+ * @Route("/new-pitch")
+ * @Template
+ */
+    public function newpitchAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/new-pitch']);// Lets see if there is a post to procces
+
+        if ($request->isMethod('POST')) {
+
+                $resource = $request->request->all();
+                $res
+
+                if($resource = $commonGroundService->saveResource($resource, ['component' => 'chrc', 'type' => 'pitches'])){
+                    $id = $resource['id'];
+                    $this->redirect('app_tender_pitch', $id);
+                }
+
+//                if (key_exists('@component', $resource)) {
+//                    // Passing the variables to the resource
+//                    $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+//                }
+        }
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
 
     /**
      * @Route("/pitches/{id}")
@@ -43,31 +95,21 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitch']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitch']);// Lets see if there is a post to procces
 
         // Get resource
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches', 'id' => $id]);
 
-        // Get all reviews/comments of this resource
-        $variables['comments'] = $commonGroundService->getResource(['component' => 'rc', 'type' => 'reviews', 'resource' => $variables['resource']['@id']]);
-
-        if ($template && array_key_exists('content', $template)) {
-            $content = $template['content'];
-        }
-
-        // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
 
             // Make a review/comment
             if (isset($_POST['add_comment'])) {
 
-                $resource = $request->request->all();
-                $resource['@id'] = null;
-                $resource['id'] = 'new';
-//                $resource['author'] = $variables['app']['user']['..?']
+                $resource['author'] = $variables['user']['@id'];
                 $resource['resource'] = $variables['resource']['@id'];
+                $resource['review'] = $request->request->get('review');
 
-                $resource = $commonGroundService->saveResource($resource, ['component' => 'rc', 'type' => 'reviews']);
+                $resource = $commonGroundService->createResource($resource, ['component' => 'rc', 'type' => 'reviews']);
             } else {
 
                 $resource = $request->request->all();
@@ -79,6 +121,12 @@ class TenderController extends AbstractController
             }
         }
 
+        // Get all reviews/comments of this resource
+        $variables['comments'] = $commonGroundService->getResource(['component' => 'rc', 'type' => 'reviews', 'resource' => $variables['resource']['@id']]);
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
 
         // Create the template
         if ($content) {
