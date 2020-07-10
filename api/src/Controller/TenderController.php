@@ -48,7 +48,6 @@ class TenderController extends AbstractController
         if ($request->isMethod('POST')) {
 
                 $resource = $request->request->all();
-                $res
 
                 if($resource = $commonGroundService->saveResource($resource, ['component' => 'chrc', 'type' => 'pitches'])){
                     $id = $resource['id'];
