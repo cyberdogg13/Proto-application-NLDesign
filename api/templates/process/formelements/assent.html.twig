@@ -23,26 +23,29 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-sm-12">
+    <div id="personForm" class="col-sm-12">
         <div style="padding: 50px">
-            <label class="input__label" for="email">Email</label>
-            <input class="input__control input__control--text" style="width: 100%" id="getuigenEmail" type="email">
-            <label class="input__label" for="telefoon">Telefoonnummer</label>
-            <input class="input__control input__control--text" style="width: 100%" id="getuigenTelefoon" type="tel">
             <label class="input__label" for="voornaam">Voornaam</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenVoornaam" type="text">
             <label class="input__label" for="achternaam">Achternaam</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenAchternaam" type="text">
+            <label class="input__label" for="email">Email</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenEmail" type="email">
+            <label class="input__label" for="telefoon">Telefoonnummer</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenTelefoon" type="tel">
             <button class="btn" id="toevoegen" onclick="addGetuigen('{{ property.name }}', '{{ property.maxItems }}')" type="button" style="margin-top: 5px; width: 100%">Uitnodigen</button>
         </div>
     </div>
 </div>
 
 <script>
+    let personForm = document.getElementById("personForm");
+
     function addGetuigen(propertyName, items) {
         let container = document.getElementById("getuigen-container");
             if(container.children.length === parseInt(items)){
                 $('#toevoegen').prop('disabled', true);
+                personForm.setAttribute('style', 'display: none;');
             }
             let email = document.getElementById('getuigenEmail').value;
             let telefoon = document.getElementById('getuigenTelefoon').value;
@@ -138,6 +141,7 @@
         target.remove();
         if(container.children.length < parseInt(items) + 1){
             $('#toevoegen').prop('disabled', false);
+            personForm.setAttribute('style', 'display: block;');
         }
     }
 
@@ -150,6 +154,7 @@
         tr.remove();
         if(container.children.length < parseInt(items) + 1){
             $('#toevoegen').prop('disabled', false);
+            personForm.setAttribute('style', 'display: block;');
         }
     }
 </script>

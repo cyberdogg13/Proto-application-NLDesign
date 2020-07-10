@@ -36,8 +36,9 @@
         {% for section in stage.sections %}
             <div class="content-background">
                 <div class="content">
-                    <h2>{{ section.name }}</h2>
-                    {{ section.description }}
+                    <h2>{{ section.name|capitalize }}</h2>
+                    <p>{{ section.description|capitalize }}</p>
+
 
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
