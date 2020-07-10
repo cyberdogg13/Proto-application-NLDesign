@@ -143,12 +143,18 @@ value="">
                 buttons[j].name = date.getDate() + ' ' + months[date.getMonth()];
                 buttons[j].innerText = 'kies';
                 buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: #148839; border: 1px solid lightgray;');
-                if(date.getDate() === test.getDate()){
+                if(date.getDay() === 0){
+                    buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: lightgrey; border: 1px solid lightgray;');
+                    buttons[j].innerText = '';
+                    buttons[j].setAttribute('disabled', 'disabled');
+                }
+                if(date.getDay() === 6){
                     buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: lightgrey; border: 1px solid lightgray;');
                     buttons[j].innerText = '';
                     buttons[j].setAttribute('disabled', 'disabled');
                 }
             }
+            console.log(date.getDay());
             weeks[i].innerHTML= date.getDate() + ' ' + months[date.getMonth()];
             date.setDate(date.getDate() + 1);
         }
