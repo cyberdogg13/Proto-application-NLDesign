@@ -183,7 +183,7 @@
                     {% if request is defined and request is not null %}
                         <ul class="definition-list">
                             <li class="definition-list__item definition-list__item--horizontal">
-                                <div class="definition-list__title">
+                                <div class="definition-list__title" style="max-width: 100%">
                                     {{ 'status'|trans|capitalize }}
                                 </div>
                                 <div class="definition-list__description">
@@ -195,7 +195,7 @@
                             {% for key, property in request.properties %}
                                 <li class="definition-list__item definition-list__item--horizontal">
 
-                                    <div class="definition-list__title">
+                                    <div class="definition-list__title" style="max-width: 100%;">
                                         {{ key }}
                                     </div>
 
