@@ -26,7 +26,7 @@
                         <li class="nav__item nav__item--parent">
                             <a class="nav__link nav__link--parent" href="#">{{ user.naam.voornamen }} {{ user.naam.geslachtsnaam }}</a>
                             <ul class="nav__submenu" style="background-color: #CC0000; width: 100%; margin-top: -3px; padding-top: 0;">
-                                {% for item in loggedIn %}
+                                {% for item in loggedIn.menuItems %}
                                     <li class="nav__item">
                                         <a  href="{{ item.href }}" title="Home" class="nav__link">
                                             <span>{{ item.name }}</span>
@@ -57,7 +57,7 @@
                                         <span>Inwoner</span>
                                     </a>
                                 </li>
-                                {% for item in loggedOut %}
+                                {% for item in loggedOut.menuItems %}
                                     <li class="nav__item">
                                         <a  href="{{ item.href }}" title="Home" class="nav__link">
                                             <span>{{ item.name }}</span>

@@ -16,7 +16,15 @@
             <div class="input__group input__group--radio">
                 <input class="input__control input__control--radio" type="radio" id="{{ offer.id }}" name="request[properties][{{ property.name }}]" value="{{ offer['@id'] }}">
                 <label class="input__label input__label--radio" for="{{ offer.id }}">{{ offer.name|capitalize }}
-                    {% if offer.price != 0 %}<span style="float:right;">{{ offer.price }} {{ offer.priceCurrency|lower }}</span>{% endif %}</label><br>
+                    {% if offer.price != 0 %}
+                        <span style="float:right;">
+                            {% if offer.priceCurrency == 'EUR' %}
+                                €{{ offer.price }}
+                            {% else %}
+                                {{ offer.price }}
+                            {% endif %}
+                            {% if offer.price matches '/^\\d+$/' %}{{ ',-' }}{% else %}{% endif %}</span>
+                    {% endif %}</label><br>
             </div>
         {% endif %}
     {% endfor %}

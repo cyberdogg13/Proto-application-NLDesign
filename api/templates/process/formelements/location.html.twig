@@ -1,15 +1,19 @@
 <br>
-<button type="button" onclick="showPosition();">Huidige locatie</button>
-<div id="result">
+<label class="input__label" for="voornaam">Adres</label>
+<div style="display: flex">
+    {% if request.properties[property.name] is defined and request.properties[property.name] is not empty %}
+        <input class="input__control input__control--text" style="" id="locationProperty" type="text" name="request[properties][{{ property.name }}]"
+               value="{{ request.properties[property.name] }}">
+    {% else %}
+        <input class="input__control input__control--text" style="" id="locationProperty" type="text" name="request[properties][{{ property.name }}]">
+    {% endif %}
+    <button style="width: 50px" type="button" onclick="showPosition();"><i class="fas fa-map-marker-alt"></i></button>
+</div>
+
+<div id="result" style="margin-bottom: 20px">
     <!--Position information will be inserted here-->
 </div>
-{% if request.properties[property.name] is defined and request.properties[property.name] is not empty %}
-    <input id="locationProperty" type="hidden" name="request[properties][{{ property.name }}]"
-    value="{{ request.properties[property.name] }}">
 
-{% else %}
-<input id="locationProperty" type="hidden" name="request[properties][{{ property.name }}]">
-{% endif %}
 <script>
     function showPosition() {
         if(navigator.geolocation) {
