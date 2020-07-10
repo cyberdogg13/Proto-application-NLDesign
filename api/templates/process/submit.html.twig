@@ -32,15 +32,27 @@
                                     {% for item in value %}
                                         {% if item is iterable %}
                                         {% for subItem in item %}
-                                            <li>{{ subItem }}</li>
+                                            {% if 'http' in subItem %}
+                                                <li>{{ commonground_resource(subItem).name }}</li>
+                                            {% else %}
+                                                <li>{{ subItem }}</li>
+                                            {% endif %}
                                             {% endfor %}
                                         {% else %}
-                                            <li>{{ item }}</li>
+                                            {% if 'http' in item %}
+                                                <li>{{ commonground_resource(item).name }}</li>
+                                            {% else %}
+                                                <li>{{ item }}</li>
+                                            {% endif %}
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     {% else %}
-                                    {{ value }}<br>
+                                        {% if 'http' in value %}
+                                            {{ commonground_resource(value).name }}<br>
+                                        {% else %}
+                                            {{ value }}<br>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             {# else %}
@@ -72,29 +84,32 @@
     </div>
 </div>
 
-<div class="content-background" style="margin-top: 20px;">
+<div class="content-background" style="margin-top: 20px">
 
     <div class="content">
-        <h2>Gegevens indiener</h2>
-
+        <h2>Uw gegevens</h2>
         <ul class="definition-list">
-            <li class="definition-list__item definition-list__item--horizontal">
-                <div class="definition-list__title">
-                    Voornamen
-                </div>
-                <div class="definition-list__description">
-                    <p>{{ user.naam.voornamen }}</p>
-                </div>
-            </li>
-            <li class="definition-list__item definition-list__item--horizontal">
-                <div class="definition-list__title">
-                    Achternaam
-                </div>
-                <div class="definition-list__description">
-                    <p>{{ user.naam.geslachtsnaam }}</p>
-                </div>
-            </li>
-            {% if user.naam.voorvoegsel is not empty%}
+            {% if user.naam.voornamen is defined and user.naam.voornamen is not empty %}
+                <li class="definition-list__item definition-list__item--horizontal">
+                    <div class="definition-list__title">
+                        Voornamen
+                    </div>
+                    <div class="definition-list__description">
+                        <p>{{ user.naam.voornamen }}</p>
+                    </div>
+                </li>
+            {% endif %}
+            {% if user.naam.geslachtsnaam is defined and user.naam.geslachtsnaam is not empty %}
+                <li class="definition-list__item definition-list__item--horizontal">
+                    <div class="definition-list__title">
+                        Achternaam
+                    </div>
+                    <div class="definition-list__description">
+                        <p>{{ user.naam.geslachtsnaam }}</p>
+                    </div>
+                </li>
+            {% endif %}
+            {% if user.naam.voorvoegsel is defined and user.naam.voorvoegsel is not empty%}
                 <li class="definition-list__item definition-list__item--horizontal">
                     <div class="definition-list__title">
                         Voorvoegsel
@@ -103,6 +118,8 @@
                         <p>{{ user.naam.voorvoegsel }}</p>
                     </div>
                 </li>
+            {% endif %}
+            {% if user.leeftijd is defined and user.leeftijd is not empty%}
                 <li class="definition-list__item definition-list__item--horizontal">
                     <div class="definition-list__title">
                         Leeftijd
@@ -111,6 +128,8 @@
                         <p>{{ user.leeftijd }}</p>
                     </div>
                 </li>
+            {% endif %}
+            {% if user.geslachtsaanduiding is defined and user.geslachtsaanduiding is not empty%}
                 <li class="definition-list__item definition-list__item--horizontal">
                     <div class="definition-list__title">
                         Geslacht
@@ -122,11 +141,18 @@
             {% endif %}
             <li class="definition-list__item definition-list__item--horizontal">
                 <div class="definition-list__title">
-                    Adres
+                    Addres
                 </div>
                 <div class="definition-list__description">
-                    <p>{{ user.verblijfplaats.straatnaam }} {{ user.verblijfplaats.huisnummer }}{{ user.verblijfplaats.huisletter }}{{ user.verblijfplaats.huisnummertoevoeging }}
-                        <br>{{ user.verblijfplaats.postcode }} {{ user.verblijfplaats.woonplaatsnaam }}</p>
+                    <p>
+                        {% if user.verblijfplaats.straatnaam is defined and user.verblijfplaats.straatnaam is not empty %}{{ user.verblijfplaats.straatnaam }}{% endif %}
+                        {% if user.verblijfplaats.huisnummer is defined and user.verblijfplaats.huisnummer is not empty %}{{ user.verblijfplaats.huisnummer }}{% endif %}
+                        {% if user.verblijfplaats.huisletter is defined and user.verblijfplaats.huisletter is not empty %}{{ user.verblijfplaats.huisletter }}{% endif %}
+                        {% if user.verblijfplaats.huisnummertoevoeging is defined and user.verblijfplaats.huisnummertoevoeging is not empty %}{{ user.verblijfplaats.huisnummertoevoeging }}{% endif %}
+                        <br>
+                        {% if user.verblijfplaats.postcode is defined and user.verblijfplaats.postcode is not empty %}{{ user.verblijfplaats.postcode }}{% endif%}
+                        {% if user.verblijfplaats.woonplaatsnaam is defined and  user.verblijfplaats.woonplaatsnaam is not empty %}{{ user.verblijfplaats.woonplaatsnaam }}{% endif %}
+                    </p>
                 </div>
             </li>
         </ul>
@@ -135,9 +161,9 @@
 
 {% if request['status'] is defined and request['status'] in {'incomplete':'incomplete','complete':'complete'} %}
 <button name="request[status]" style="margin-top: 20px;" id="status_submit" value="submitted" class="btn btn--block">{{ 'submit'|trans|capitalize }}</button>
-<button name="request[status]" style="margin-top: 20px;" id="status_cancel" value="cancelled" class="btn btn--block btn--primary">{{ 'cancel'|trans|capitalize }}</button>
+<button name="request[status]" style="margin-top: 20px; background-color: red; color: white;" id="status_cancel" value="cancelled" class="btn btn--block btn--primary">{{ 'cancel'|trans|capitalize }}</button>
 {% elseif request['status'] is defined and request['status'] in {'submitted':'submitted'} %}
-<button name="request[status]" style="margin-top: 20px;" id="status_retract" value="retracted" class="btn btn--block btn--primary">{{ 'retract'|trans|capitalize }}</button>
+<button name="request[status]" style="margin-top: 20px; background-color: red; color: white;" id="status_retract" value="retracted" class="btn btn--block btn--primary">{{ 'retract'|trans|capitalize }}</button>
 {% endif %}
 
 
