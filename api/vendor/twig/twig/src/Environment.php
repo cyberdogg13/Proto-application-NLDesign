@@ -128,7 +128,6 @@ class Environment
         $this->addExtension(new CoreExtension());
         $this->addExtension(new EscaperExtension($options['autoescape']));
         $this->addExtension(new OptimizerExtension($options['optimizations']));
-        $this->addExtension(new \Twig\Extension\StringLoaderExtension());
     }
 
     /**

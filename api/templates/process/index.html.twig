@@ -21,8 +21,8 @@
 
                         {% for resource in processes %}
                             <tr>
-                                <td>{{ resource.name }}</td>
-                                <td>{% if resource.dateCreated is defined and resource.dateCreated is not null %}{{ resource.description }}{% endif %}</td>
+                                <td>{{ resource.name|capitalize }}</td>
+                                <td>{% if resource.dateCreated is defined and resource.dateCreated is not null %}{{ resource.description|capitalize }}{% endif %}</td>
                                 <td><a style="background: #cfebfd; padding: 6px; border-radius: 6px" href="{{ path('app_process_start', {id: resource.id}) }}"><b>{{ 'start'|trans|capitalize }}</b></a></td>
                             </tr>
                         {% endfor %}
@@ -100,7 +100,7 @@
                 <!-- Page Break -->
                 <div style="height: 20px"></div>
 
-                        <a href="/request" class="btn btn--primary" style="width: 100%"><i style="margin-right: 10px;" class="fas fa-user"></i>Mijn {{ application.organization.name }}</a>
+                        <a href="/request" class="btn btn--primary" style="background-color: #138496; color: white; width: 100%"><i style="margin-right: 10px;" class="fas fa-user"></i>Mijn {{ application.organization.name }}</a>
 
 
             {% endif %}
