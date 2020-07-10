@@ -32,15 +32,27 @@
                                     {% for item in value %}
                                         {% if item is iterable %}
                                         {% for subItem in item %}
-                                            <li>{{ subItem }}</li>
+                                            {% if 'http' in subItem %}
+                                                <li>{{ commonground_resource(subItem).name }}</li>
+                                            {% else %}
+                                                <li>{{ subItem }}</li>
+                                            {% endif %}
                                             {% endfor %}
                                         {% else %}
-                                            <li>{{ item }}</li>
+                                            {% if 'http' in item %}
+                                                <li>{{ commonground_resource(item).name }}</li>
+                                            {% else %}
+                                                <li>{{ item }}</li>
+                                            {% endif %}
                                         {% endif %}
                                         {% endfor %}
                                     </ul>
                                     {% else %}
-                                    {{ value }}<br>
+                                        {% if 'http' in value %}
+                                            {{ commonground_resource(value).name }}<br>
+                                        {% else %}
+                                            {{ value }}<br>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             {# else %}
