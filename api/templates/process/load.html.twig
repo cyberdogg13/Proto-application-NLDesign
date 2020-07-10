@@ -9,7 +9,7 @@
                 <header class="content__header">
                     <a class="backlink" href="{{ path('app_process_index') }}">Home</a>
                     <header class="content__header">
-                        <h1 class="content__header-title">{{ process.name }}</h1>
+                        <h1 class="content__header-title">{{ process.name|capitalize }}</h1>
                     </header>
                 </header>
             </div><!-- ./content -->
@@ -36,8 +36,9 @@
         {% for section in stage.sections %}
             <div class="content-background">
                 <div class="content">
-                    <h2>{{ section.name }}</h2>
-                    {{ section.description }}
+                    <h2>{{ section.name|capitalize }}</h2>
+                    <p>{{ section.description|capitalize }}</p>
+
 
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
@@ -134,7 +135,7 @@
 
             <div class="content-background">
                 <div style="text-align: center; padding: 20px" >
-                    <h2>Vooruitgang</h2>
+                    <h2>Voortgang</h2>
                     {% set counter = 0 %}
                     {% for stage in process.stages %}
                         {% for section in stage.sections %}
@@ -182,7 +183,7 @@
                     {% if request is defined and request is not null %}
                         <ul class="definition-list">
                             <li class="definition-list__item definition-list__item--horizontal">
-                                <div class="definition-list__title">
+                                <div class="definition-list__title" style="max-width: 100%">
                                     {{ 'status'|trans|capitalize }}
                                 </div>
                                 <div class="definition-list__description">
@@ -194,7 +195,7 @@
                             {% for key, property in request.properties %}
                                 <li class="definition-list__item definition-list__item--horizontal">
 
-                                    <div class="definition-list__title">
+                                    <div class="definition-list__title" style="max-width: 100%;">
                                         {{ key }}
                                     </div>
 
@@ -207,15 +208,15 @@
                                             {% for item in value %}
                                                 {% if item is iterable %}
                                                     {% for subItem in item %}
-                                                        <li>{{ subItem }}</li>
+                                                        <li>{{ subItem|capitalize }}</li>
                                                     {% endfor %}
                                                 {% else %}
-                                                    <li>{{ item }}</li>
+                                                    <li>{{ item|capitalize }}</li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                         {% else %}
-                                            {{ value }}<br>
+                                            {{ value|capitalize }}<br>
                                         {% endif %}
                                         {% endfor %}
                                         {# else %}
@@ -232,7 +233,7 @@
                                             {% if 'http' in property %}
                                                 {{ commonground_resource(property).name }}
                                             {% else %}
-                                                {{ property }}
+                                                {{ property|capitalize }}
                                             {% endif %}
                                             {# endif #}
                                         {% endif %}
