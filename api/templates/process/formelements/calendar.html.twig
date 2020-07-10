@@ -10,6 +10,8 @@
             <th style="text-align: center">Woensdag<br><p style="font-weight: 100" class="week"></p></th>
             <th style="text-align: center">Donderdag<br><p style="font-weight: 100" class="week"></p></th>
             <th style="text-align: center">Vrijdag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Zaterdag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Zondag<br><p style="font-weight: 100" class="week"></p></th>
         </tr>
     </thead>
     <tbody>
@@ -40,7 +42,7 @@
     </tbody>
 </table>
 
-<div id="testData">
+<div id="testData" style="margin-top: 40px;">
 
 </div>
 
@@ -110,7 +112,7 @@ value="">
 
     let days = document.getElementsByClassName('days');
     for(let i = 0; i < days.length; i++){
-        for(let j = 0; j < 5; j++){
+        for(let j = 0; j < 7; j++){
 
             let td = document.createElement('td');
             td.setAttribute('style', 'height: 40px; padding: 0;');
@@ -139,8 +141,11 @@ value="">
             let buttons = document.getElementsByClassName('button-'+i.toString());
             for(let j = 0; j < buttons.length; j++){
                 buttons[j].name = date.getDate() + ' ' + months[date.getMonth()];
+                buttons[j].innerText = 'kies';
+                buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: #148839; border: 1px solid lightgray;');
                 if(date.getDate() === test.getDate()){
-                    buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: grey; border: 1px solid lightgray;');
+                    buttons[j].setAttribute('style', 'width: 100%; display: block; height: 100%; background-color: lightgrey; border: 1px solid lightgray;');
+                    buttons[j].innerText = '';
                     buttons[j].setAttribute('disabled', 'disabled');
                 }
             }
