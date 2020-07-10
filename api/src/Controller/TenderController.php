@@ -38,6 +38,7 @@ class TenderController extends AbstractController
         $content = false;
         $variables = $applicationService->getVariables();
 
+
         // Lets provide this data to the template
         $variables['query'] = $request->query->all();
         $variables['post'] = $request->request->all();
@@ -49,10 +50,14 @@ class TenderController extends AbstractController
 
                 $resource = $request->request->all();
 
-                if($resource = $commonGroundService->saveResource($resource, ['component' => 'chrc', 'type' => 'pitches'])){
-                    $id = $resource['id'];
-                    $this->redirect('app_tender_pitch', $id);
-                }
+                $resource['submitters'][] = $variables['user']['@id'];
+                $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
+
+                $resource = $commonGroundService->createResource($resource, ['component' => 'chrc', 'type' => 'pitches']);
+
+                $id = $resource['id'];
+
+                return $this->redirectToRoute('app_tender_pitch', array('id' => $id));
 
 //                if (key_exists('@component', $resource)) {
 //                    // Passing the variables to the resource
@@ -120,8 +125,14 @@ class TenderController extends AbstractController
             }
         }
 
+//        var_dump($variables['resource']['@id']);
+//        die;
+
         // Get all reviews/comments of this resource
-        $variables['comments'] = $commonGroundService->getResource(['component' => 'rc', 'type' => 'reviews', 'resource' => $variables['resource']['@id']]);
+        $variables['comments'] = $commonGroundService->getResourceList(['component' => 'rc', 'type' => 'reviews'],['resource' => $variables['resource']['@id']]);
+
+//        var_dump($variables['comments']);
+//        die;
 
         if ($template && array_key_exists('content', $template)) {
             $content = $template['content'];
