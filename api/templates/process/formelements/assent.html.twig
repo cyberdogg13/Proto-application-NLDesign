@@ -1,12 +1,12 @@
 <br>
 <div class="row">
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12">
         <div class="row" id="getuigen-container">
             <div id="0"></div>
             {% if request.properties.getuigen is defined and request.properties.getuigen is not empty %}
                 {% set value = 1 %}
                 {% for getuige in request.properties.getuigen %}
-                    <div id="{{ value }}" class="col-sm-12 col-md-11" style="margin: 5px; border: 1px solid black; background-color: lightgrey; text-align: center;">
+                    <div id="{{ value }}" class="col-sm-12 col-md-5" style="margin: 1%; width: 48%; border: 1px solid black; background-color: lightgrey; text-align: center;">
                         <h2 id="{{ value }}">{{ getuige.person.givenName }} {{ getuige.person.familyName }}</h2>
                         <div id="{{ value }}" style="line-height: 15px">
                             <p id="{{ value }}">Email: {{ getuige.email }}</p>
@@ -15,7 +15,7 @@
                             <input type="hidden" id="{{ value }}" value="{{ getuige.telephone }}" name="request[properties][{{ property.name }}][{{ value }}][telephone]">
                             <input type="hidden" id="{{ value }}" value="{{ getuige.person.givenName }}" name="request[properties][{{ property.name }}][{{ value }}][person][givenName]">
                             <input type="hidden" id="{{ value }}" value="{{ getuige.person.familyName }}" name="request[properties][{{ property.name }}][{{ value }}][person][familyName]">
-                            <button class="btn btn-primary" id="{{ value }}" onclick="storedDelete(this)" style="margin-bottom: 5px; width: 100%" type="button">verwijderen</button>
+                            <button class="btn btn-primary" id="{{ value }}" onclick="storedDelete(this, '{{ property.maxItems }}')" style="background-color:red; margin-bottom: 5px; width: 100%" type="button">verwijderen</button>
                         </div>
                     </div>
                     {% set value = value + 1 %}
@@ -23,23 +23,27 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-sm-12 col-md-4">
-        <label class="input__label" for="email">Email</label>
-        <input class="input__control input__control--text" style="width: 100%" id="getuigenEmail" type="email">
-        <label class="input__label" for="telefoon">Telefoonnummer</label>
-        <input class="input__control input__control--text" style="width: 100%" id="getuigenTelefoon" type="tel">
-        <label class="input__label" for="voornaam">Voornaam</label>
-        <input class="input__control input__control--text" style="width: 100%" id="getuigenVoornaam" type="text">
-        <label class="input__label" for="achternaam">Achternaam</label>
-        <input class="input__control input__control--text" style="width: 100%" id="getuigenAchternaam" type="text">
-        <button class="btn" onclick="addGetuigen('{{ property.name }}', '{{ property.maxItems }}')" type="button" style="margin-top: 5px; width: 100%">Uitnodigen</button>
+    <div class="col-sm-12">
+        <div style="padding: 50px">
+            <label class="input__label" for="email">Email</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenEmail" type="email">
+            <label class="input__label" for="telefoon">Telefoonnummer</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenTelefoon" type="tel">
+            <label class="input__label" for="voornaam">Voornaam</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenVoornaam" type="text">
+            <label class="input__label" for="achternaam">Achternaam</label>
+            <input class="input__control input__control--text" style="width: 100%" id="getuigenAchternaam" type="text">
+            <button class="btn" id="toevoegen" onclick="addGetuigen('{{ property.name }}', '{{ property.maxItems }}')" type="button" style="margin-top: 5px; width: 100%">Uitnodigen</button>
+        </div>
     </div>
 </div>
 
 <script>
     function addGetuigen(propertyName, items) {
         let container = document.getElementById("getuigen-container");
-        if(container.children.length <= parseInt(items)){
+            if(container.children.length === parseInt(items)){
+                $('#toevoegen').prop('disabled', true);
+            }
             let email = document.getElementById('getuigenEmail').value;
             let telefoon = document.getElementById('getuigenTelefoon').value;
             let voornaam = document.getElementById('getuigenVoornaam').value;
@@ -80,8 +84,8 @@
 
 
             let outerDiv = document.createElement('div');
-            outerDiv.className = "col-sm-12 col-md-11";
-            outerDiv.setAttribute('style', 'margin: 5px; border: 1px solid black; background-color: lightgrey; text-align: center;');
+            outerDiv.className = "col-sm-12 col-md-6";
+            outerDiv.setAttribute('style', 'margin: 1%; width: 48%; border: 1px solid black; background-color: lightgrey; text-align: center;');
             outerDiv.id = counter.toString();
             container.appendChild(outerDiv);
 
@@ -109,10 +113,10 @@
             let button = document.createElement('button');
             button.innerHTML = 'verwijderen';
             button.addEventListener('click', function(){
-                removeGetuigen(outerDiv);
+                removeGetuigen(outerDiv, '{{ property.maxItems }}');
             });
             button.className = 'btn btn-primary';
-            button.setAttribute('style', 'margin-bottom: 5px; width:100%;')
+            button.setAttribute('style', 'background-color: red; margin-bottom: 5px; width:100%;')
             button.type = 'button';
             button.id = counter.toString();
             innerDiv.appendChild(button);
@@ -127,24 +131,25 @@
             document.getElementById('getuigenVoornaam').value = null;
             document.getElementById('getuigenAchternaam').value = null;
 
-        } else {
-            document.getElementById('getuigenEmail').value = null;
-            document.getElementById('getuigenTelefoon').value = null;
-            document.getElementById('getuigenVoornaam').value = null;
-            document.getElementById('getuigenAchternaam').value = null;
-        }
-
     }
 
-    function removeGetuigen(target) {
+    function removeGetuigen(target, items) {
+        let container = document.getElementById("getuigen-container");
         target.remove();
+        if(container.children.length < parseInt(items) + 1){
+            $('#toevoegen').prop('disabled', false);
+        }
     }
 
-    function storedDelete(given){
+    function storedDelete(given, items){
+        let container = document.getElementById("getuigen-container");
         let td = given.parentNode;
         let tr = td.parentNode;
         given.remove();
         td.remove();
         tr.remove();
+        if(container.children.length < parseInt(items) + 1){
+            $('#toevoegen').prop('disabled', false);
+        }
     }
 </script>
