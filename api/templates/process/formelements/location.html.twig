@@ -16,12 +16,10 @@
 
 <script>
 
-
     $('#map').hide();
     let map;
     let latitude;
     let longitude;
-
 
     function initMap(lat, long) {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -31,7 +29,6 @@
         let location = {lat: lat, lng: long};
         let marker = new google.maps.Marker({position: location, map: map});
     }
-
 
     function getLocation(address) {
         let geocoder = new google.maps.Geocoder();
@@ -45,8 +42,6 @@
         });
     }
 
-
-
     function showPosition() {
         $('#map').show();
 
@@ -59,52 +54,35 @@
         }
 
         setTimeout(function (){
-
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     let location = document.getElementById('locationProperty');
                     //location.value = ''+position.coords.latitude+' '+position.coords.longitude;
                     if(longitude !== undefined){
                         initMap(latitude, longitude);
-
                         let latLng = new google.maps.LatLng(latitude, longitude);
 
                         geocoder.geocode({ 'latLng': latLng}, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 input.value = results[0].formatted_address
                             }
-                            else {
-                                console.log("Geocoding failed: " + status);
-                            }
                         });
-
                         latitude = undefined;
                         longitude = undefined;
 
                     }else{
                         initMap(position.coords.latitude, position.coords.longitude);
-
                         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
                         geocoder.geocode({ 'latLng': latLng}, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 input.value = results[0].formatted_address
                             }
-                            else {
-                                console.log("Geocoding failed: " + status);
-                            }
                         });
-
                     }
-
                 });
             } else {
                 alert("Sorry, uw browser ondersteund deze functie niet.");
             }
-
         }, 400);
-
-
-
     }
 </script>
