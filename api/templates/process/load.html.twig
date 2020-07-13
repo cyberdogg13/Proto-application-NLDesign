@@ -196,7 +196,7 @@
                                 <li class="definition-list__item definition-list__item--horizontal">
 
                                     <div class="definition-list__title" style="max-width: 100%;">
-                                        {{ key }}
+                                        {{ key|capitalize }}
                                     </div>
 
                                     <div class="definition-list__description">
@@ -209,14 +209,14 @@
                                                 {% if item is iterable %}
                                                     {% for subItem in item %}
                                                         {% if 'http' in subItem %}
-                                                        <li>{{ commonground_resource(subItem).name }}</li>
+                                                        <li>{{ commonground_resource(subItem).name|capitalize }}</li>
                                                     {% else %}
                                                         <li>{{ subItem|capitalize }}</li>
                                                         {% endif %}
                                                     {% endfor %}
                                                 {% else %}
                                                     {% if 'http' in item %}
-                                                        <li>{{ commonground_resource(item).name }}</li>
+                                                        <li>{{ commonground_resource(item).name|capitalize }}</li>
                                                     {% else %}
                                                         <li>{{ item|capitalize }}</li>
                                                     {% endif %}
@@ -243,7 +243,7 @@
                                                 {% endif #}
                                         {% else %}
                                             {% if 'http' in property %}
-                                                {{ commonground_resource(property).name }}
+                                                {{ commonground_resource(property).name|capitalize }}
                                             {% else %}
                                                 {{ property|capitalize }}
                                             {% endif %}
