@@ -7,7 +7,7 @@
     {% else %}
         <input class="input__control input__control--text" style="" id="locationProperty" type="text" name="request[properties][{{ property.name }}]">
     {% endif %}
-    <button style="width: 50px" type="button" onclick="showPosition();"><i class="fas fa-map-marker-alt"></i></button>
+    <button style="min-width: 50px; width: 50px !important;" type="button" class="btn btn-primary" onclick="showPosition();"><i class="fas fa-map-marker-alt"></i></button>
 </div>
 
 <div id="result" style="margin-bottom: 20px">
