@@ -208,15 +208,27 @@
                                             {% for item in value %}
                                                 {% if item is iterable %}
                                                     {% for subItem in item %}
+                                                        {% if 'http' in subItem %}
+                                                        <li>{{ commonground_resource(subItem).name }}</li>
+                                                    {% else %}
                                                         <li>{{ subItem|capitalize }}</li>
+                                                        {% endif %}
                                                     {% endfor %}
                                                 {% else %}
-                                                    <li>{{ item|capitalize }}</li>
+                                                    {% if 'http' in item %}
+                                                        <li>{{ commonground_resource(item).name }}</li>
+                                                    {% else %}
+                                                        <li>{{ item|capitalize }}</li>
+                                                    {% endif %}
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                         {% else %}
-                                            {{ value|capitalize }}<br>
+                                            {% if 'http' in value %}
+                                                {{ commonground_resource(value).name }}<br>
+                                            {% else %}
+                                                {{ value|capitalize }}<br>
+                                            {% endif %}
                                         {% endif %}
                                         {% endfor %}
                                         {# else %}
