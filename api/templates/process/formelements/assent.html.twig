@@ -26,12 +26,14 @@
     </div>
     <div id="personForm" class="col-sm-12">
         <div>
+
             <label class="input__label" for="voornaam">Voornaam</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenVoornaam" type="text">
             <label class="input__label" for="achternaam">Achternaam</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenAchternaam" type="text">
             <label class="input__label" for="email">Email</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenEmail" type="email">
+            <span id="inputResult"></span>
             <label class="input__label" for="telefoon">Telefoonnummer</label>
             <input class="input__control input__control--text" style="width: 100%" id="getuigenTelefoon" type="tel">
             <button class="btn" id="toevoegen" onclick="addGetuigen('{{ property.name }}', '{{ property.maxItems }}')" type="button" style="margin-top: 5px; width: 100%">Uitnodigen</button>
@@ -43,7 +45,12 @@
     let personForm = document.getElementById("personForm");
 
     function addGetuigen(propertyName, items) {
-        let container = document.getElementById("getuigen-container");
+        let input = document.getElementById('getuigenEmail');
+        if(!input.checkValidity()){
+            document.getElementById('inputResult').innerHTML = 'Zorg dat je een geldig e-mail adres invult';
+        }else{
+            document.getElementById('inputResult').innerHTML = '';
+            let container = document.getElementById("getuigen-container");
             if(container.children.length === parseInt(items)){
                 $('#toevoegen').prop('disabled', true);
                 personForm.setAttribute('style', 'display: none;');
@@ -134,6 +141,7 @@
             document.getElementById('getuigenTelefoon').value = null;
             document.getElementById('getuigenVoornaam').value = null;
             document.getElementById('getuigenAchternaam').value = null;
+        }
 
     }
 
