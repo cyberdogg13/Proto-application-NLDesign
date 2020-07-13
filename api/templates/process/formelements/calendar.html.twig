@@ -3,40 +3,39 @@
     <thead>
         <tr>
             <th><select id="weekSelect" onchange="weekSelector(this)"  class="calendarSelect">
-                    <option value="" disabled selected style="display:none;">Week Selectie</option>
                 </select></th>
-            <th style="text-align: center">Maandag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Dinsdag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Woensdag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Donderdag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Vrijdag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Zaterdag<br><p style="font-weight: 100" class="week"></p></th>
-            <th style="text-align: center">Zondag<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Ma<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Di<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Woe<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Do<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Vrij<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Zat<br><p style="font-weight: 100" class="week"></p></th>
+            <th style="text-align: center">Zon<br><p style="font-weight: 100" class="week"></p></th>
         </tr>
     </thead>
     <tbody>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>09:00 - 10:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>10:00 - 11:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>11:00 - 12:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>12:00 - 13:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>13:00 - 14:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>14:00 - 15:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>15:00 - 16:00</th>
     </tr>
-    <tr class="days">
+    <tr style="height: 60px;" class="days">
         <th>16:00 - 17:00</th>
     </tr>
     </tbody>
@@ -110,6 +109,7 @@ value="">
 
     }
 
+
     let days = document.getElementsByClassName('days');
     for(let i = 0; i < days.length; i++){
         for(let j = 0; j < 7; j++){
@@ -132,7 +132,7 @@ value="">
     }
 
     function weekSelector(week) {
-        const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'];
+        const months = ['Jan', 'Feb', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         let arr = week.value.split('-');
         let date = getDateOfWeek(arr[0], arr[1]);
@@ -170,6 +170,12 @@ value="">
         }
     }
 
+    function firstStart() {
+        let info = document.getElementById('weekSelect');
 
+        weekSelector(info);
+    }
+
+    firstStart();
 
 </script>
