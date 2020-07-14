@@ -11,7 +11,7 @@
             {% else %}
     <div class="input__group input__group--radio">
         <input class="input__control input__control--radio" type="radio" id="{{ option }}" name="request[properties][{{ property.name }}]" value="{{ option }}">
-        <label class="input__label input__label--radio" for="{{ option }}">{{ option }}</label><br>
+        <label class="input__label input__label--radio" for="{{ option }}">{{ option|capitalize }}</label><br>
     </div>
             {% endif %}
         {% endfor %}
