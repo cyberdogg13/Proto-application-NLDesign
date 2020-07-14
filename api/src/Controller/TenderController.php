@@ -99,7 +99,10 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitch']);// Lets see if there is a post to procces
+        //if(wrc uuid stage) {
+        //    $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/oplossing']);}
+        //else {
+            $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitch']); //}
 
         // Get resource
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches', 'id' => $id]);
