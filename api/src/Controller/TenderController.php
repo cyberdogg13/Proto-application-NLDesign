@@ -53,9 +53,13 @@ class TenderController extends AbstractController
                 $resource['submitters'][] = $variables['user']['@id'];
                 $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
 
+//            var_dump($resource);
+
                 $resource = $commonGroundService->createResource($resource, ['component' => 'chrc', 'type' => 'pitches']);
 
                 $id = $resource['id'];
+
+                var_dump($resource['id']);
 
                 return $this->redirectToRoute('app_tender_pitch', array('id' => $id));
 
@@ -63,6 +67,74 @@ class TenderController extends AbstractController
 //                    // Passing the variables to the resource
 //                    $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
 //                }
+        }
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+    /**
+ * @Route("/pitches")
+ * @Template
+ */
+    public function pitchesAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitches']);// Lets see if there is a post to procces
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches']);
+
+//        var_dump($variables['user']['@id']);
+//        die;
+//
+//        var_dump($variables['resources']);
+//die;
+
+        if ($request->isMethod('POST')) {
+
+            if (isset($_POST['filterPitches'])) {
+
+                $parameters = $request->request->all();
+
+                $date = $parameters['dateSubmitted'];
+
+                // Because you cant filter for 1 date we have to filter between 2 dates
+                $date1 = date('Y-m-d', strtotime($date. ' - 1 day'));
+                $date2 = date('Y-m-d', strtotime($date. ' + 1 day'));
+
+                $variables['resources'] = [];
+                $variables['resources'] = $commonGroundService->getResourceList(['component'=>'chrc', 'type'=>'pitches'], ['name'=>$parameters['name'], 'description'=>$parameters['keywords'], 'requiredBudget[between]'=> $parameters['minBudget'].'..'.$parameters['maxBudget'], 'created[strictly_after]'=>$date1, 'created[strictly_before]'=>$date2]);
+
+                unset($parameters);
+
+                if(empty($variables['resources']['hydra:member'])){
+                    unset($variables['resources']);
+                }
+            }
         }
 
         if ($template && array_key_exists('content', $template)) {
@@ -104,6 +176,9 @@ class TenderController extends AbstractController
         // Get resource
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches', 'id' => $id]);
 
+//        var_dump($variables['user']['@id']);
+//        die;
+
         if ($request->isMethod('POST')) {
 
             // Make a review/comment
@@ -112,8 +187,10 @@ class TenderController extends AbstractController
                 $resource['author'] = $variables['user']['@id'];
                 $resource['resource'] = $variables['resource']['@id'];
                 $resource['review'] = $request->request->get('review');
+                $resource['organization'] = "https://wrc.dev.zuid-drecht.nl/organizations/4d1eded3-fbdf-438f-9536-8747dd8ab591";
 
                 $resource = $commonGroundService->createResource($resource, ['component' => 'rc', 'type' => 'reviews']);
+
             } else {
 
                 $resource = $request->request->all();
@@ -125,14 +202,8 @@ class TenderController extends AbstractController
             }
         }
 
-//        var_dump($variables['resource']['@id']);
-//        die;
-
         // Get all reviews/comments of this resource
         $variables['comments'] = $commonGroundService->getResourceList(['component' => 'rc', 'type' => 'reviews'],['resource' => $variables['resource']['@id']]);
-
-//        var_dump($variables['comments']);
-//        die;
 
         if ($template && array_key_exists('content', $template)) {
             $content = $template['content'];
@@ -184,6 +255,74 @@ class TenderController extends AbstractController
             }
         }
 
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+    /**
+     * @Route("/challenges")
+     * @Template
+     */
+    public function challengesAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/challenges']);
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'challenges']);
+
+//        var_dump($variables['user']['@id']);
+//        die;
+//
+//        var_dump($variables['resources']);
+//die;
+
+        if ($request->isMethod('POST')) {
+
+            if (isset($_POST['filter'])) {
+
+                $parameters = $request->request->all();
+
+                $date = $parameters['dateSubmitted'];
+
+                // Because you cant filter for 1 date we have to filter between 2 dates
+                $date1 = date('Y-m-d', strtotime($date. ' - 1 day'));
+                $date2 = date('Y-m-d', strtotime($date. ' + 1 day'));
+
+                $variables['resources'] = [];
+                $variables['resources'] = $commonGroundService->getResourceList(['component'=>'chrc', 'type'=>'tenders'], ['name'=>$parameters['name'], 'description'=>$parameters['keywords'], 'budget[between]'=> $parameters['minBudget'].'..'.$parameters['maxBudget'], 'created[strictly_after]'=>$date1, 'created[strictly_before]'=>$date2]);
+
+                unset($parameters);
+
+                if(empty($variables['resources']['hydra:member'])){
+                    unset($variables['resources']);
+                }
+            }
+        }
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
 
         // Create the template
         if ($content) {

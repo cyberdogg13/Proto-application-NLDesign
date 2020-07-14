@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use function GuzzleHttp\Promise\all;
 
 
 /**
@@ -40,6 +41,25 @@ class ZZController extends AbstractController
         // Lets provide this data to the template
         $variables['query'] = $request->query->all();
         $variables['post'] = $request->request->all();
+
+        if ($request->isMethod('POST')) {
+
+            if (isset($_POST['filterPitches'])) {
+
+                $parameters = $request->request->all();
+
+                $date = $parameters['dateSubmitted'];
+
+                // Because you cant filter for 1 date we have to filter between 2 dates
+                $date1 = date('Y-m-d', strtotime($date. ' - 1 day'));
+                $date2 = date('Y-m-d', strtotime($date. ' + 1 day'));
+
+                $variables['resources'] = [];
+                $variables['resources'] = $commonGroundService->getResourceList(['component'=>'chrc', 'type'=>'pitches'], ['name'=>$parameters['name'], 'description'=>$parameters['keywords'], 'requiredBudget[between]'=> $parameters['minBudget'].'..'.$parameters['maxBudget'], 'created[strictly_after]'=>$date1, 'created[strictly_before]'=>$date2]);
+
+                unset($parameters);
+            }
+        }
 
         // Lets also provide any or all id
         $slug_parts = explode('/',$slug);
