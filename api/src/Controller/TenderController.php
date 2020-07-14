@@ -47,15 +47,14 @@ class TenderController extends AbstractController
             $resource['submitters'][] = $variables['user']['@id'];
             $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
 
-                $resource['submitter'] = $variables['user']['@id'];
-                $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
+            $resource['submitter'] = $variables['user']['@id'];
+            $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
 
 //            var_dump($resource);
 
             $resource = $commonGroundService->createResource($resource, ['component' => 'chrc', 'type' => 'pitches']);
 
             $id = $resource['id'];
-
 
             return $this->redirectToRoute('app_tender_pitch', ['id' => $id]);
 
