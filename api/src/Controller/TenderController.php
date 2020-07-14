@@ -5,63 +5,57 @@
 namespace App\Controller;
 
 use Conduction\CommonGroundBundle\Service\ApplicationService;
-
 //use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
-use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-
 
 /**
- * The Tender controller handles any calls for tenders
+ * The Tender controller handles any calls for tenders.
  *
  * Class TenderController
- * @package App\Controller
+ *
  * @Route("/chrc")
  */
 class TenderController extends AbstractController
-
-
-{/**
- * @Route("/new-pitch")
- * @Template
- */
+{
+    /**
+     * @Route("/new-pitch")
+     * @Template
+     */
     public function newpitchAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
     {
         $content = false;
         $variables = $applicationService->getVariables();
-
 
         // Lets provide this data to the template
         $variables['query'] = $request->query->all();
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/new-pitch']);// Lets see if there is a post to procces
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/new-pitch']); // Lets see if there is a post to procces
 
         if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
 
-                $resource = $request->request->all();
-
-                $resource['submitters'][] = $variables['user']['@id'];
-                $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
+            $resource['submitters'][] = $variables['user']['@id'];
+            $resource['dateSubmitted'] = '2020-07-16T12:00:01+00:00';
 
 //            var_dump($resource);
 
-                $resource = $commonGroundService->createResource($resource, ['component' => 'chrc', 'type' => 'pitches']);
+            $resource = $commonGroundService->createResource($resource, ['component' => 'chrc', 'type' => 'pitches']);
 
-                $id = $resource['id'];
+            $id = $resource['id'];
 
-                var_dump($resource['id']);
+            var_dump($resource['id']);
 
-                return $this->redirectToRoute('app_tender_pitch', array('id' => $id));
+            return $this->redirectToRoute('app_tender_pitch', ['id' => $id]);
 
 //                if (key_exists('@component', $resource)) {
 //                    // Passing the variables to the resource
@@ -79,6 +73,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -90,9 +85,9 @@ class TenderController extends AbstractController
     }
 
     /**
- * @Route("/pitches")
- * @Template
- */
+     * @Route("/pitches")
+     * @Template
+     */
     public function pitchesAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
     {
         $content = false;
@@ -103,7 +98,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitches']);// Lets see if there is a post to procces
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/pitches']); // Lets see if there is a post to procces
 
         // Get resource
         $variables['resources'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches']);
@@ -112,26 +107,24 @@ class TenderController extends AbstractController
 //        die;
 //
 //        var_dump($variables['resources']);
-//die;
+        //die;
 
         if ($request->isMethod('POST')) {
-
             if (isset($_POST['filterPitches'])) {
-
                 $parameters = $request->request->all();
 
                 $date = $parameters['dateSubmitted'];
 
                 // Because you cant filter for 1 date we have to filter between 2 dates
-                $date1 = date('Y-m-d', strtotime($date. ' - 1 day'));
-                $date2 = date('Y-m-d', strtotime($date. ' + 1 day'));
+                $date1 = date('Y-m-d', strtotime($date.' - 1 day'));
+                $date2 = date('Y-m-d', strtotime($date.' + 1 day'));
 
                 $variables['resources'] = [];
                 $variables['resources'] = $commonGroundService->getResourceList(['component'=>'chrc', 'type'=>'pitches'], ['name'=>$parameters['name'], 'description'=>$parameters['keywords'], 'requiredBudget[between]'=> $parameters['minBudget'].'..'.$parameters['maxBudget'], 'created[strictly_after]'=>$date1, 'created[strictly_before]'=>$date2]);
 
                 unset($parameters);
 
-                if(empty($variables['resources']['hydra:member'])){
+                if (empty($variables['resources']['hydra:member'])) {
                     unset($variables['resources']);
                 }
             }
@@ -147,6 +140,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -171,7 +165,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/pitch']);// Lets see if there is a post to procces
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/pitch']); // Lets see if there is a post to procces
 
         // Get resource
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches', 'id' => $id]);
@@ -183,19 +177,16 @@ class TenderController extends AbstractController
 
             // Make a review/comment
             if (isset($_POST['add_comment'])) {
-
                 $resource['author'] = $variables['user']['@id'];
                 $resource['resource'] = $variables['resource']['@id'];
                 $resource['review'] = $request->request->get('review');
-                $resource['organization'] = "https://wrc.dev.zuid-drecht.nl/organizations/4d1eded3-fbdf-438f-9536-8747dd8ab591";
+                $resource['organization'] = 'https://wrc.dev.zuid-drecht.nl/organizations/4d1eded3-fbdf-438f-9536-8747dd8ab591';
 
                 $resource = $commonGroundService->createResource($resource, ['component' => 'rc', 'type' => 'reviews']);
-
             } else {
-
                 $resource = $request->request->all();
 
-                if (key_exists('@component', $resource)) {
+                if (array_key_exists('@component', $resource)) {
                     // Passing the variables to the resource
                     $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
                 }
@@ -203,7 +194,7 @@ class TenderController extends AbstractController
         }
 
         // Get all reviews/comments of this resource
-        $variables['comments'] = $commonGroundService->getResourceList(['component' => 'rc', 'type' => 'reviews'],['resource' => $variables['resource']['@id']]);
+        $variables['comments'] = $commonGroundService->getResourceList(['component' => 'rc', 'type' => 'reviews'], ['resource' => $variables['resource']['@id']]);
 
         if ($template && array_key_exists('content', $template)) {
             $content = $template['content'];
@@ -215,6 +206,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -239,7 +231,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/challenge']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/challenge']);
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'tenders', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
@@ -249,12 +241,11 @@ class TenderController extends AbstractController
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)) {
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
         }
-
 
         // Create the template
         if ($content) {
@@ -262,6 +253,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -286,7 +278,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/challenges']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/challenges']);
 
         // Get resource
         $variables['resources'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'challenges']);
@@ -295,26 +287,24 @@ class TenderController extends AbstractController
 //        die;
 //
 //        var_dump($variables['resources']);
-//die;
+        //die;
 
         if ($request->isMethod('POST')) {
-
             if (isset($_POST['filter'])) {
-
                 $parameters = $request->request->all();
 
                 $date = $parameters['dateSubmitted'];
 
                 // Because you cant filter for 1 date we have to filter between 2 dates
-                $date1 = date('Y-m-d', strtotime($date. ' - 1 day'));
-                $date2 = date('Y-m-d', strtotime($date. ' + 1 day'));
+                $date1 = date('Y-m-d', strtotime($date.' - 1 day'));
+                $date2 = date('Y-m-d', strtotime($date.' + 1 day'));
 
                 $variables['resources'] = [];
                 $variables['resources'] = $commonGroundService->getResourceList(['component'=>'chrc', 'type'=>'tenders'], ['name'=>$parameters['name'], 'description'=>$parameters['keywords'], 'budget[between]'=> $parameters['minBudget'].'..'.$parameters['maxBudget'], 'created[strictly_after]'=>$date1, 'created[strictly_before]'=>$date2]);
 
                 unset($parameters);
 
-                if(empty($variables['resources']['hydra:member'])){
+                if (empty($variables['resources']['hydra:member'])) {
                     unset($variables['resources']);
                 }
             }
@@ -330,6 +320,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -354,7 +345,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/proposal']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/proposal']);
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'proposals', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
@@ -364,12 +355,11 @@ class TenderController extends AbstractController
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)) {
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
         }
-
 
         // Create the template
         if ($content) {
@@ -377,6 +367,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -386,7 +377,6 @@ class TenderController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
 
     /**
      * @Route("/deals/{id}")
@@ -402,7 +392,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/deal']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/deal']);
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'deals', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
@@ -412,12 +402,11 @@ class TenderController extends AbstractController
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)) {
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
         }
-
 
         // Create the template
         if ($content) {
@@ -425,6 +414,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -449,7 +439,7 @@ class TenderController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/question']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/question']);
         $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'questions', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
@@ -459,12 +449,11 @@ class TenderController extends AbstractController
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)) {
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
         }
-
 
         // Create the template
         if ($content) {
@@ -472,6 +461,7 @@ class TenderController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
+
             return $template;
         }
 
@@ -481,11 +471,4 @@ class TenderController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
 }
-
-
-
-
-
-
