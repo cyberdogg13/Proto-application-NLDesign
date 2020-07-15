@@ -94,7 +94,7 @@
                             <ul class="list list--subjects columns">
                                 {% for activity in course.activities %}
                                     <li>
-                                        <a href="{{ path('app_education_course', {id: course.id}) }}" class="list__link">
+                                        <a href="{{ path('app_education_activity', {id: activity.id}) }}" class="list__link">
                                             {{ activity.name|capitalize }}
                                         </a>
                                         <p> {{ activity.description}}</p>
