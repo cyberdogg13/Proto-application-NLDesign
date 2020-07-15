@@ -17,7 +17,7 @@
                     <nav class="sidenav">
                         <ul>
                             {% for course in resources %}
-                                <li class="sidenav__item {{ if }} ">
+                                <li class="sidenav__item ">
                                     <a href="{{ path('app_edu_course', {id: course.id}) }}">
                                         {{ course.name|capitalize }}
                                     </a>
