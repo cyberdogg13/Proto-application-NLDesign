@@ -1,0 +1,43 @@
+<div class="container">
+
+    <!-- the alert box -->
+
+    <div class="container">
+        <section class="row">
+            <div class="col-xl-9 col-xl-offset-4 col-lg-8 col-lg-offset-5 col-md-9 col-md-offset-4 col-xs-12">
+                <header class="content__header">
+                    <h1 class="content__header-title">  {{ program.name|capitalize }}</h1>
+                </header>
+            </div>
+        </section>
+
+        <article>
+            <div class="row">
+                <aside class="col-xl-3 col-lg-4 col-md-3 col-sm-modal">
+                    <nav class="sidenav">
+                        <ul>
+                            {% for program in resources %}
+                                <li class="sidenav__item {% id id is defined and id == program.id %}sidenav__item--active{% endif %}">
+                                    <a href="{{ path('app_edu_program', {id: program.id}) }}">
+                                        {{ program.name|capitalize }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                </aside>
+
+                <div class="col-xl-9 col-lg-8 col-md-9">
+                    <div class="content-background">
+                        <div class="skiplink-target content" id="main-content">
+
+                            <p>  {{ program.description|capitalize }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>
