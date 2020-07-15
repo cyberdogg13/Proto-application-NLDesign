@@ -26,7 +26,7 @@ class RequestController extends AbstractController
     /**
      * @Route("/load/{id}")
      */
-    public function loadAction($id, Session $session, string $slug, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
+    public function loadAction($id, Session $session, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params, string $slug = 'home')
     {
         //$variables = $applicationService->getVariables();
         $loadedRequest = $commonGroundService->getResourceList(['component'=>'vrc', 'type'=>'requests', 'id'=>$id], ['extend'=>'processType']);
@@ -38,7 +38,7 @@ class RequestController extends AbstractController
      * @Route("/")
      * @Template
      */
-    public function indexAction(Session $session, string $slug, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
+    public function indexAction(Session $session, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params, string $slug = 'home')
     {
         $variables = $applicationService->getVariables();
         $variables['requests'] = $commonGroundService->getResourceList(['component'=>'vrc', 'type'=>'requests'], ['submitters.brp'=>$variables['user']['@id']])['hydra:member'];
