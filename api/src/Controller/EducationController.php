@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/education")
  */
-class EduController extends AbstractController
+class EducationController extends AbstractController
 {
     /**
      * @Route("/")
@@ -39,8 +39,8 @@ class EduController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query']);
-        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query']);
+        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
+        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
 
         return $variables;
     }
@@ -59,7 +59,7 @@ class EduController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
 
         return $variables;
     }
@@ -79,7 +79,8 @@ class EduController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs','id' => $id], $variables['query']);
+        $variables['program'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs','id' => $id], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
 
         return $variables;
     }
@@ -98,7 +99,7 @@ class EduController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
 
         return $variables;
     }
@@ -118,7 +119,8 @@ class EduController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses','id' => $id], $variables['query']);
+        $variables['course'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses','id' => $id], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
 
         return $variables;
     }
