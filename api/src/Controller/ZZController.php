@@ -4,35 +4,33 @@
 
 namespace App\Controller;
 
-use App\Service\ApplicationService;
+use Conduction\CommonGroundBundle\Service\ApplicationService;
 //use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
-use Doctrine\ORM\EntityManagerInterface;
+use function GuzzleHttp\Promise\all;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-
 
 /**
- * The ZZ controller handles any calls that have not been picked up by another controller, and wel try to handle the slug based against the wrc
+ * The ZZ controller handles any calls that have not been picked up by another controller, and wel try to handle the slug based against the wrc.
  *
  * Class ZZController
- * @package App\Controller
+ *
  * @Route("/")
  */
 class ZZController extends AbstractController
 {
-
-	/**
+    /**
      * @Route("/", name="app_default_index")
-	 * @Route("/{slug}", requirements={"slug"=".+"}, name="slug")
-	 * @Template
-	 */
-    public function indexAction(Session $session, string $slug = 'home',Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
+     * @Route("/{slug}", requirements={"slug"=".+"}, name="slug")
+     * @Template
+     */
+    public function indexAction(Session $session, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params, string $slug = 'home')
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -42,36 +40,33 @@ class ZZController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets also provide any or all id
-        $slug_parts = explode('/',$slug);
+        $slug_parts = explode('/', $slug);
         $variables['id'] = end($slug_parts);
 
         // Lets find an appoptiate slug
-        $slugs = $commonGroundService->getResourceList(['component'=>'wrc','type'=>'slugs'],['application.id'=>$variables['application']['id'],'slug'=>$slug])["hydra:member"];
+        $template = $commonGroundService->getResource(['component'=>'wrc', 'type'=>'applications', 'id'=> $params->get('app_id').'/'.$slug]);
 
-        if(count($slugs) != 0){
-            $content = $slugs[0]['template']['content'];
-        }
-        else{
-            // Throw not found
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
         }
 
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)){
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
         }
 
-
         // Create the template
-        if($content){
+        if ($content) {
             $template = $this->get('twig')->createTemplate($content);
             $template = $template->render($variables);
-        }
-        else{
+        } else {
             $template = $this->render('404.html.twig', $variables);
+
+            return $template;
         }
 
         return $response = new Response(
@@ -80,11 +75,4 @@ class ZZController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
 }
-
-
-
-
-
-

@@ -23,7 +23,7 @@
       </trans-unit>
       <trans-unit id="hVVLud1" resname="incomplete">
         <source>incomplete</source>
-        <target>inkompleet</target>
+        <target>incompleet</target>
       </trans-unit>
       <trans-unit id="7rv2RX5" resname="complete">
         <source>complete</source>
@@ -31,7 +31,7 @@
       </trans-unit>
       <trans-unit id="WBkP_r_" resname="processed">
         <source>processed</source>
-        <target>verwerked</target>
+        <target>verwerkt</target>
       </trans-unit>
       <trans-unit id="i0cEXre" resname="cancelled">
         <source>cancelled</source>
@@ -92,6 +92,30 @@
       <trans-unit id="yQRveje" resname="description">
         <source>description</source>
         <target>omschrijving</target>
+      </trans-unit>
+      <trans-unit id="inmIkP6" resname="yes">
+        <source>yes</source>
+        <target>ja</target>
+      </trans-unit>
+      <trans-unit id="k5Apjz_" resname="no">
+        <source>no</source>
+        <target>nee</target>
+      </trans-unit>
+      <trans-unit id="WpL28In" resname="instruction">
+        <source>instruction</source>
+        <target>instructies</target>
+      </trans-unit>
+      <trans-unit id="YFQKuu_" resname="this request is currently">
+        <source>this request is currently</source>
+        <target>__this request is currently</target>
+      </trans-unit>
+      <trans-unit id="UD6t0Eb" resname="retract">
+        <source>retract</source>
+        <target>intrekken</target>
+      </trans-unit>
+      <trans-unit id="EwPAaws" resname="type">
+        <source>type</source>
+        <target>type</target>
       </trans-unit>
     </body>
   </file>

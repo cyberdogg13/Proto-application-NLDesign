@@ -8,14 +8,14 @@ settings:
   name: pan
   title: Proto Applicatie NL Design
   version: V.0.1
-  id: 3f44c00e-d919-4f89-bd4c-b730c9b2620a
+  id: 1ef30b69-6b28-4fbd-a0cd-83d6ff3c505e
   description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
   type: application
   repro: https://github.com/ConductionNL/pan
-  demo: pan.conduction.nl
+  demo: www.zuid-drecht.nl
   container: https://hub.docker.com/repository/docker/conduction/pc-php
-  domain: westfriesland.commonground.nu
-  subdomain: pan
+  domain: zuid-drecht.nl
+  subdomain: false
   organisationName: Conduction
   email: info@conduction.nl
   country: Netherlands
@@ -23,11 +23,12 @@ settings:
   locality: Amsterdam
   unit: Common-Ground
   env: dev
+  web: false
   debug: 1
   cache: 1
   replicaCount: 1
   corsAllowOrigin: ['*']
-  trustedHosts: '^localhost$|^127.0.0.1$|^(.+\.)?conduction\.nl$'
+  trustedHosts: '^.+$'
   pullPolicy: Always
   # You will need these proxies on kubernetes
   trustedProxies:
@@ -46,7 +47,7 @@ settings:
   archiveEnabled: false
 
 security:
-  commongroundId: "3f44c00e-d919-4f89-bd4c-b730c9b2620a"
+  commongroundId: "1ef30b69-6b28-4fbd-a0cd-83d6ff3c505e"
   commongroundKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
   applicationKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
   userKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
