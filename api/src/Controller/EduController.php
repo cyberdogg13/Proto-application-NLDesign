@@ -68,7 +68,7 @@ class EduController extends AbstractController
      * @Route("/programs/{id}")
      * @Template
      */
-    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, )
+    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -107,7 +107,7 @@ class EduController extends AbstractController
      * @Route("/courses/{id}")
      * @Template
      */
-    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, )
+    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
