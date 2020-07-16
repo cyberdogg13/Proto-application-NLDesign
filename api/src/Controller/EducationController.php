@@ -221,7 +221,7 @@ class EducationController extends AbstractController
             $template = $template->render($variables);
         } else {
             $template = $this->render('404.html.twig', $variables);
-            
+
             return $template;
         }
 
