@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * The Tender controller handles any calls for tenders.
+ * The Education controller handles any calls for education.
  *
- * Class TenderController
+ * Class EducationController
  *
  * @Route("/education")
  */
@@ -165,12 +165,12 @@ class EducationController extends AbstractController
 
         return $variables;
     }
-}
+
     /**
-     * @Route("/oplossingen/{id}")
+     * @Route("/studenten")
      * @Template
      */
-    public function oplossingAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
+    public function studentenAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -180,56 +180,14 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/oplossing']);// Lets see if there is a post to procces
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/studenten']); // Lets see if there is a post to procces
 
         // Get resource
-        $variables['resource'] = $commonGroundService->getResource(['component' => 'chrc', 'type' => 'pitches', 'id' => $id]);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants'], $variables['query'])["hydra:member"];
 
-        if ($request->isMethod('POST')) {
-
-            // Make a review/comment
-            if (isset($_POST['add_comment'])) {
-
-                $resource['author'] = $variables['user']['@id'];
-                $resource['resource'] = $variables['resource']['@id'];
-                $resource['review'] = $request->request->get('review');
-
-                $resource = $commonGroundService->createResource($resource, ['component' => 'rc', 'type' => 'reviews']);
-            } else {
-
-                $resource = $request->request->all();
-
-                if (key_exists('@component', $resource)) {
-                    // Passing the variables to the resource
-                    $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
-                }
-            }
-        }
-
-        // Get all reviews/comments of this resource
-        $variables['comments'] = $commonGroundService->getResourceList(['component' => 'rc', 'type' => 'reviews'],['resource' => $variables['resource']['@id']]);
-
-        if ($template && array_key_exists('content', $template)) {
-            $content = $template['content'];
-        }
-
-        // Create the template
-        if ($content) {
-            $template = $this->get('twig')->createTemplate($content);
-            $template = $template->render($variables);
-        } else {
-            $template = $this->render('404.html.twig', $variables);
-            return $template;
-        }
-
-        return $response = new Response(
-            $template,
-            Response::HTTP_OK,
-            ['content-type' => 'text/html']
-        );
+        return $variables;
     }
 
-    //W.I.P.
     /**
      * @Route("/studenten/{id}")
      * @Template
@@ -275,5 +233,4 @@ class EducationController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
 }
