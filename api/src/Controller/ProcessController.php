@@ -56,7 +56,7 @@ class ProcessController extends AbstractController
      * @Route("/{id}/{slug}", name="app_process_slug")
      * @Template
      */
-    public function loadAction(Session $session, $id, string $slug, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params)
+    public function loadAction(Session $session, $id, Request $request, CommonGroundService $commonGroundService, ApplicationService $applicationService, ParameterBagInterface $params, string $slug = 'instruction')
     {
         $variables = $applicationService->getVariables();
 
