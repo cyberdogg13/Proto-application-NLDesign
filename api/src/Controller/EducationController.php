@@ -5,9 +5,7 @@
 namespace App\Controller;
 
 use Conduction\CommonGroundBundle\Service\ApplicationService;
-//use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
-use phpDocumentor\Reflection\Type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -39,8 +37,8 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
-        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
+        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -59,7 +57,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -68,7 +66,7 @@ class EducationController extends AbstractController
      * @Route("/programs/{id}")
      * @Template
      */
-    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -80,7 +78,7 @@ class EducationController extends AbstractController
 
         // Get resource
         $variables['program'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -99,7 +97,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -108,7 +106,7 @@ class EducationController extends AbstractController
      * @Route("/courses/{id}")
      * @Template
      */
-    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -120,7 +118,7 @@ class EducationController extends AbstractController
 
         // Get resource
         $variables['course'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -140,7 +138,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -149,7 +147,7 @@ class EducationController extends AbstractController
      * @Route("/activities/{id}")
      * @Template
      */
-    public function activityAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function activityAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -161,7 +159,7 @@ class EducationController extends AbstractController
 
         // Get resource
         $variables['activity'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -183,7 +181,7 @@ class EducationController extends AbstractController
         $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/studenten']); // Lets see if there is a post to procces
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -202,7 +200,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Lets find an appoptiate slug
-        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id') . '/student']);
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/student']);
         $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
@@ -212,7 +210,7 @@ class EducationController extends AbstractController
         // Lets see if there is a post to procces
         if ($request->isMethod('POST')) {
             $resource = $request->request->all();
-            if (key_exists('@component', $resource)) {
+            if (array_key_exists('@component', $resource)) {
                 // Passing the variables to the resource
                 $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
             }
