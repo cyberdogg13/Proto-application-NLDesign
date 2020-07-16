@@ -318,7 +318,7 @@ class EducationController extends AbstractController
         $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/stages']); // Lets see if there is a post to procces
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'educational_occupational_programs'], $variables['query'])['hydra:member'];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -338,7 +338,7 @@ class EducationController extends AbstractController
 
         // Lets find an appoptiate slug
         $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/stage']);
-        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'educational_occupational_programs', 'id' => $id]);
+        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs', 'id' => $id]);
 
         if ($template && array_key_exists('content', $template)) {
             $content = $template['content'];
