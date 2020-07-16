@@ -5,9 +5,7 @@
 namespace App\Controller;
 
 use Conduction\CommonGroundBundle\Service\ApplicationService;
-//use App\Service\RequestService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
-use phpDocumentor\Reflection\Type;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -17,9 +15,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * The Tender controller handles any calls for tenders.
+ * The Education controller handles any calls for education.
  *
- * Class TenderController
+ * Class EducationController
  *
  * @Route("/education")
  */
@@ -39,8 +37,8 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
-        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['programs'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
+        $variables['courses'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -59,7 +57,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -68,7 +66,7 @@ class EducationController extends AbstractController
      * @Route("/programs/{id}")
      * @Template
      */
-    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function programAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -79,8 +77,8 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['program'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])["hydra:member"];
+        $variables['program'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs', 'id' => $id], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'programs'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -99,7 +97,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -108,7 +106,7 @@ class EducationController extends AbstractController
      * @Route("/courses/{id}")
      * @Template
      */
-    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function courseAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -119,12 +117,11 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['course'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])["hydra:member"];
+        $variables['course'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses', 'id' => $id], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
-
 
     /**
      * @Route("/activities")
@@ -140,7 +137,7 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])["hydra:member"];
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])['hydra:member'];
 
         return $variables;
     }
@@ -149,7 +146,7 @@ class EducationController extends AbstractController
      * @Route("/activities/{id}")
      * @Template
      */
-    public function activityAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params,  $id)
+    public function activityAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
     {
         $content = false;
         $variables = $applicationService->getVariables();
@@ -160,9 +157,78 @@ class EducationController extends AbstractController
         $variables['post'] = $request->request->all();
 
         // Get resource
-        $variables['activity'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities','id' => $id], $variables['query']);
-        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])["hydra:member"];
+        $variables['activity'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities', 'id' => $id], $variables['query']);
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'activities'], $variables['query'])['hydra:member'];
 
         return $variables;
+    }
+
+    /**
+     * @Route("/studenten")
+     * @Template
+     */
+    public function studentenAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/studenten']); // Lets see if there is a post to procces
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants'], $variables['query'])['hydra:member'];
+
+        return $variables;
+    }
+
+    /**
+     * @Route("/studenten/{id}")
+     * @Template
+     */
+    public function studentAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/student']);
+        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'participants', 'id' => $id]);
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (array_key_exists('@component', $resource)) {
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
     }
 }
