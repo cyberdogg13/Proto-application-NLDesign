@@ -231,4 +231,211 @@ class EducationController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
+
+    /**
+     * @Route("/tutorials")
+     * @Template
+     */
+    public function tutorialsAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/tutorials']); // Lets see if there is a post to procces
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses'], $variables['query'])['hydra:member'];
+
+        return $variables;
+    }
+
+    /**
+     * @Route("/tutorials/{id}")
+     * @Template
+     */
+    public function tutorialAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/tutorial']);
+        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'courses', 'id' => $id]);
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (array_key_exists('@component', $resource)) {
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+    /**
+     * @Route("/stages")
+     * @Template
+     */
+    public function stagesAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/stages']); // Lets see if there is a post to procces
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'educational_occupational_programs'], $variables['query'])['hydra:member'];
+
+        return $variables;
+    }
+
+    /**
+     * @Route("/stages/{id}")
+     * @Template
+     */
+    public function stageAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/stage']);
+        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'educational_occupational_programs', 'id' => $id]);
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (array_key_exists('@component', $resource)) {
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
+
+    /**
+     * @Route("/organisaties")
+     * @Template
+     */
+    public function organisatiesAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/organisaties']); // Lets see if there is a post to procces
+
+        // Get resource
+        $variables['resources'] = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'organizations'], $variables['query'])['hydra:member'];
+
+        return $variables;
+    }
+
+    /**
+     * @Route("/organisaties/{id}")
+     * @Template
+     */
+    public function organisatieAction(Session $session, Request $request, ApplicationService $applicationService, CommonGroundService $commonGroundService, ParameterBagInterface $params, $id)
+    {
+        $content = false;
+        $variables = $applicationService->getVariables();
+
+        // Lets provide this data to the template
+        $variables['query'] = $request->query->all();
+        $variables['post'] = $request->request->all();
+
+        // Lets find an appoptiate slug
+        $template = $commonGroundService->getResource(['component' => 'wrc', 'type' => 'applications', 'id' => $params->get('app_id').'/organisatie']);
+        $variables['resource'] = $commonGroundService->getResource(['component' => 'edu', 'type' => 'organizations', 'id' => $id]);
+
+        if ($template && array_key_exists('content', $template)) {
+            $content = $template['content'];
+        }
+
+        // Lets see if there is a post to procces
+        if ($request->isMethod('POST')) {
+            $resource = $request->request->all();
+            if (array_key_exists('@component', $resource)) {
+                // Passing the variables to the resource
+                $configuration = $commonGroundService->saveResource($resource, ['component' => $resource['@component'], 'type' => $resource['@type']]);
+            }
+        }
+
+        // Create the template
+        if ($content) {
+            $template = $this->get('twig')->createTemplate($content);
+            $template = $template->render($variables);
+        } else {
+            $template = $this->render('404.html.twig', $variables);
+
+            return $template;
+        }
+
+        return $response = new Response(
+            $template,
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+    }
 }
