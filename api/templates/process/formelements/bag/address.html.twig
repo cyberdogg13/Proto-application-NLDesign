@@ -20,7 +20,7 @@
     </div>
     <div class="col-sm-12 col-lg-2">
         <br>
-        <button type="button" onclick="getBagKeys()" style="width: 100%; color: black; background-color: yellow" class="btn btn-primary">Zoeken</button>
+        <button type="button" onclick="getBagKeys()" style="width: 100%; color: black; background-color: #f9e11e" class="btn btn-primary">Zoeken</button>
     </div>
 </div>
 
@@ -42,13 +42,11 @@
         $('.spinner').show();
         let postcode = document.getElementById('postcode').value;
         postcode = postcode.toUpperCase();
-        document.getElementById('postcode').value = null;
 
         let huisnummer = document.getElementById('huisnummer').value;
-        document.getElementById('huisnummer').value = null;
 
         let toevoeging = document.getElementById('toevoeging').value;
-        document.getElementById('toevoeging').value = null;
+
 
         console.log(postcode);
         console.log(huisnummer);

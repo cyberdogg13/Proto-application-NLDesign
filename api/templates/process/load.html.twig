@@ -9,7 +9,7 @@
                 <header class="content__header">
                     <a class="backlink" href="{{ path('app_process_index') }}">Home</a>
                     <header class="content__header">
-                        <h1 class="content__header-title">{{ process.name }}</h1>
+                        <h1 class="content__header-title">{{ process.name|capitalize }}</h1>
                     </header>
                 </header>
             </div><!-- ./content -->
@@ -36,8 +36,9 @@
         {% for section in stage.sections %}
             <div class="content-background">
                 <div class="content">
-                    <h2>{{ section.name }}</h2>
-                    {{ section.description }}
+                    <h2>{{ section.name|capitalize }}</h2>
+                    <p>{{ section.description|capitalize }}</p>
+
 
                     {% for property in section.properties %}
                         {% set property = commonground_resource(property) %}
@@ -134,7 +135,7 @@
 
             <div class="content-background">
                 <div style="text-align: center; padding: 20px" >
-                    <h2>Vooruitgang</h2>
+                    <h2>Voortgang</h2>
                     {% set counter = 0 %}
                     {% for stage in process.stages %}
                         {% for section in stage.sections %}
@@ -182,7 +183,7 @@
                     {% if request is defined and request is not null %}
                         <ul class="definition-list">
                             <li class="definition-list__item definition-list__item--horizontal">
-                                <div class="definition-list__title">
+                                <div class="definition-list__title" style="max-width: 100%">
                                     {{ 'status'|trans|capitalize }}
                                 </div>
                                 <div class="definition-list__description">
@@ -194,8 +195,8 @@
                             {% for key, property in request.properties %}
                                 <li class="definition-list__item definition-list__item--horizontal">
 
-                                    <div class="definition-list__title">
-                                        {{ key }}
+                                    <div class="definition-list__title" style="max-width: 100%;">
+                                        {{ key|capitalize }}
                                     </div>
 
                                     <div class="definition-list__description">
@@ -207,15 +208,27 @@
                                             {% for item in value %}
                                                 {% if item is iterable %}
                                                     {% for subItem in item %}
-                                                        <li>{{ subItem }}</li>
+                                                        {% if 'http' in subItem %}
+                                                        <li>{{ commonground_resource(subItem).name|capitalize }}</li>
+                                                    {% else %}
+                                                        <li>{{ subItem|capitalize }}</li>
+                                                        {% endif %}
                                                     {% endfor %}
                                                 {% else %}
-                                                    <li>{{ item }}</li>
+                                                    {% if 'http' in item %}
+                                                        <li>{{ commonground_resource(item).name|capitalize }}</li>
+                                                    {% else %}
+                                                        <li>{{ item|capitalize }}</li>
+                                                    {% endif %}
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                         {% else %}
-                                            {{ value }}<br>
+                                            {% if 'http' in value %}
+                                                {{ commonground_resource(value).name }}<br>
+                                            {% else %}
+                                                {{ value|capitalize }}<br>
+                                            {% endif %}
                                         {% endif %}
                                         {% endfor %}
                                         {# else %}
@@ -230,9 +243,9 @@
                                                 {% endif #}
                                         {% else %}
                                             {% if 'http' in property %}
-                                                {{ commonground_resource(property).name }}
+                                                {{ commonground_resource(property).name|capitalize }}
                                             {% else %}
-                                                {{ property }}
+                                                {{ property|capitalize }}
                                             {% endif %}
                                             {# endif #}
                                         {% endif %}
@@ -253,49 +266,45 @@
 
             <div class="content-background background--donkergeel">
                 <div class="content">
-                	<button class="btn btn--primary">Primaire knop</button>
-
+                    <h2>{{ process.name }}</h2>
+                    {% if request.properties is defined %}
+                        <ul class="definition-list">
+                        {% for key, property in request.properties%}
+                            <li class="definition-list__item definition-list__item--horizontal">
+                                <div class="definition-list__title">
+                                    {{ key }}
+                                </div>
+                                <div class="definition-list__description">
+                                    <p>
+                                        {% if property is iterable %}
+                                            {% for key, value in property %}
+                                                {{ key }}: {{ value }}<br>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% if commonground_is_resource(property) %}
+                                                {% set property = commonground_resource(property) %}
+                                                {% if property.naam.voornamen is defined and property.naam.geslachtsnaam is defined %}
+                                                    {{ property.naam.voornamen }} {{ property.naam.geslachtsnaam }}
+                                                {% elseif property.reference is defined %}
+                                                    {{ property.reference }}
+                                                {% elseif property.name is defined %}
+                                                    {{ property.name }}
+                                                {% endif %}
+                                            {% else %}
+                                                {{ property }}
+                                            {% endif %}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
-            -->
+            {% endif %}
         </div>
     </div>
-	{#
-<div class="row">
-        <div class="col-md-12">
-            <h2> Uitgelicht</h2>
-            <ul class="list list--card">
-                <li class="card">
-                    <a href="{{  path('app_challenge_index') }}" class="card__content">
-                        <div class="card__thumb" style="background-image: url('https://picsum.photos/id/1/200')"></div>
-                        <div class="card__body">
-                            <span class="card__title">Ik heb hulp nodig</span>
-                            Heeft u behoefte aan hulp? Bijvoorbeeld omdat u geen eten meer in huis heeft, of ergens niet uit komt? <br><br> Lees hier hoe u aan hulp kan komen.
-                        </div>
-                    </a>
-                </li>
-                <li class="card">
-                    <a href="{{   path('app_pitch_index') }}" class="card__content">
-                        <div class="card__thumb" style="background-image: url('https://picsum.photos/id/1/200')"></div>
-                        <div class="card__body">
-                        	<span class="card__title">Ik wil helpen</span>
-                        	Wilt u hulp aanbieden aan uw buren of gemeenschap? Bijvoorbeeld omdat u beschikt over bepaalde vaardigheden of inventaris. <br><br>Lees hier hoe u dat kenbaar kan maken.
-                        </div>
-                    </a>
-                </li>
-                <li class="card">
-                    <a href="{{ path('app_news_index') }}" class="card__content">
-                        <div class="card__thumb" style="background-image: url('https://picsum.photos/id/1/200')"></div>
-                        <div class="card__body">
-                        	<span class="card__title">Ik denk dat ik Corona heb</span>
-                        	Vermoedt u dat u zelf besmet bent met het corona virus? <br><br><br>  Lees dan hier wat u moet doen
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div> <!-- /.col -->
-    </div> <!-- /.col -->
-    #}
     {% else %}
 <div>
     <div class="notification notification--warning">
