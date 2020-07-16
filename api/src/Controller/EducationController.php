@@ -123,7 +123,6 @@ class EducationController extends AbstractController
         return $variables;
     }
 
-
     /**
      * @Route("/activities")
      * @Template
